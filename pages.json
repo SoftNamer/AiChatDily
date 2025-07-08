@@ -1,0 +1,35 @@
+{
+	"pages": [{
+			"path": "pages/home",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "小智",
+		"navigationBarBackgroundColor": "#FFF",
+		"backgroundColor": "#F7F8FA"
+	},
+	"uniIdRouter": {},
+
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#4A90E2",
+		"backgroundColor": "#1E1E1E",
+		"height": "50px",
+		"fontSize": "10px",
+		"iconWidth": "26px",
+		"spacing": "2px",
+		"list": [{
+				"pagePath": "pages/home/",
+				"selectedIconPath": "static/tab/home2.png",
+				"iconPath": "static/tab/home.png",
+				"text": "首页"
+			}
+		]
+	}
+}
