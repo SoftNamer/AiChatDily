@@ -43,7 +43,7 @@
 							<p class="conv-last-message">{{ conv.lastMessage || '点击继续聊天' }}</p>
 						</div>
 					</div>
-					<div @click.stop="deleteConversationHandle(conv.id)" class="delete-conv-btn">×</div>
+					<div @click.stop="deleteConversation(conv.id)" class="delete-conv-btn">×</div>
 				</div>
 			</div>
 		</div>
@@ -261,8 +261,8 @@
 
 	// 聊天配置
 	const chatConfig = reactive({
-		apiKey: 'app-orlLU9Qb0tU7wcShLvpPA9qI',
-		baseUrl: 'http://localhost/v1',
+		apiKey: 'app-ZUe9X1ze40XIPnZFQxECINIJ',
+		baseUrl: 'http://183.230.27.247/v1',
 		userId: 'user1',
 		robotType: '智能助手'
 	})
@@ -270,7 +270,6 @@
 	// 使用Dify聊天API
 	const {
 		sendChatMessage,
-		deleteConversation,
 		resetConversation: resetChatConversation,
 		getCurrentConversationId
 	} = useDifyChat()
@@ -491,7 +490,7 @@
 	}
 
 	// 删除会话
-	const deleteConversationHandle = (id) => {
+	const deleteConversation = (id) => {
 		if (id === currentConversationId.value) {
 			// 如果删除当前会话，切换到第一个会话
 			const firstConv = conversations.value.find(conv => conv.id !== id)
@@ -503,11 +502,9 @@
 				resetConversation()
 			}
 		}
-		deleteConversation(id)
+
 		conversations.value = conversations.value.filter(conv => conv.id !== id)
 		saveConversations()
-		
-		
 	}
 
 	// 清空所有会话

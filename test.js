@@ -2,8 +2,8 @@
 // const API_BASE_URL = '/v1'
 // const API_KEY = 'app-TBpecunf0XF1SiFc7EPrxvUX'
 
-const API_BASE_URL = 'http://183.230.27.247/v1'
-const API_KEY = 'app-ZUe9X1ze40XIPnZFQxECINIJ' // 从app.md获取的API KEY
+const API_BASE_URL = 'http://localhost/v1'
+const API_KEY = 'app-orlLU9Qb0tU7wcShLvpPA9qI' // 从app.md获取的API KEY
 
 async function testDifyConnection() {
   console.log('🧪 开始测试 Dify API 连接...')
