@@ -1,52 +1,5 @@
 {
-  "name": "dify-vue3-chat-demo",
-  "version": "1.0.0",
-  "description": "基于Dify工作流的Vue3智能客服问答系统",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test-api": "node test.js",
-    "deploy": "npm run build && echo '构建完成，请将dist目录部署到服务器'",
-    "clean": "rm -rf dist node_modules",
-    "serve": "npm run build && npm run preview"
-  },
-  "keywords": [
-    "vue3",
-    "dify",
-    "chatbot",
-    "ai",
-    "customer-service",
-    "badminton",
-    "whut"
-  ],
-  "author": "AgentDemo Team",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/your-username/dify-vue3-chat-demo.git"
-  },
-  "bugs": {
-    "url": "https://github.com/your-username/dify-vue3-chat-demo/issues"
-  },
-  "homepage": "https://github.com/your-username/dify-vue3-chat-demo#readme",
   "dependencies": {
-    "@vueuse/core": "^10.2.1",
-    "axios": "^1.4.0",
-    "highlight.js": "^11.8.0",
-    "marked": "^5.1.1",
-    "vue": "^3.3.4"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.0",
-    "typescript": "^5.0.2",
-    "vite": "^7.0.2",
-    "vue-tsc": "^3.0.1"
-  },
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
+    "marked": "^16.0.0"
   }
 }

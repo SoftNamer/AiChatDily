@@ -3,8 +3,8 @@
     <div class="config-overlay" @click="closeConfig"></div>
     <div class="config-modal">
       <div class="config-header">
-        <h3>⚙️ 系统配置</h3>
-        <button @click="closeConfig" class="close-btn">×</button>
+        <h3>系统配置</h3>
+        <div @click="closeConfig" class="close-btn">×</div>
       </div>
       
       <div class="config-content">
@@ -51,15 +51,15 @@
       </div>
       
       <div class="config-actions">
-        <button @click="testConnection" class="test-btn" :disabled="testing">
+        <div @click="testConnection" class="test-btn" :disabled="testing">
           {{ testing ? '测试中...' : '测试连接' }}
-        </button>
-        <button @click="saveConfig" class="save-btn">
+        </div>
+        <div @click="saveConfig" class="save-btn">
           保存配置
-        </button>
-        <button @click="resetConfig" class="reset-btn">
+        </div>
+        <div @click="resetConfig" class="reset-btn">
           重置默认
-        </button>
+        </div>
       </div>
     </div>
   </div>
@@ -177,6 +177,8 @@ loadSavedConfig()
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .config-overlay {
@@ -194,7 +196,7 @@ loadSavedConfig()
   background: white;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  max-width: 500px;
+  max-width: 100%;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
@@ -202,6 +204,7 @@ loadSavedConfig()
 }
 
 .config-header {
+	width: calc(100% - 20px * 2);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -223,11 +226,7 @@ loadSavedConfig()
   color: #666;
   width: 30px;
   height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background 0.2s;
+	text-align: center;
 }
 
 .close-btn:hover {
@@ -294,21 +293,49 @@ loadSavedConfig()
 }
 
 .config-actions {
+  /* 移除固定宽度，让flex容器自适应父元素 */
+  height: 70px;
   display: flex;
+  justify-content: space-between;
   gap: 12px;
   padding: 20px;
   border-top: 1px solid #e9ecef;
+  /* 新增：防止子元素溢出 */
+  box-sizing: border-box;
 }
 
-.config-actions button {
-  flex: 1;
-  padding: 12px;
-  border: none;
+/* 子按钮样式调整 */
+.config-actions .test-btn,
+.config-actions .save-btn,
+.config-actions .reset-btn {
+  /* 移除固定宽度计算，用flex分配空间 */
+  flex: 1; /* 三个按钮平均分配宽度 */
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s;
+  /* 新增：防止按钮内容溢出 */
+  text-align: center;
+  box-sizing: border-box;
+  height: 40px;
+  line-height: 40px;
+}
+
+/* 响应式调整（移动端垂直排列） */
+@media (max-width: 768px) {
+  .config-actions {
+    flex-direction: column;
+    height: auto; /* 取消固定高度，适应内容 */
+    gap: 10px;
+  }
+  
+  .config-actions .test-btn,
+  .config-actions .save-btn,
+  .config-actions .reset-btn {
+    width: 100%; /* 移动端按钮占满宽度 */
+    flex: none; /* 取消flex分配，避免高度拉伸 */
+  }
 }
 
 .test-btn {
