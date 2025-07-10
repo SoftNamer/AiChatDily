@@ -4,7 +4,7 @@ export default {
     strictPort: true, // 端口被占用时直接退出，不自动尝试其他端口
     proxy: {
 	  '/v1': {
-		target: 'http://localhost',
+		target: 'http://ai.yuhwyuan.com/v1',
 		changeOrigin: true,
 		rewrite: (path) => {
 		  const newPath = path.replace(/^\/v1/, '/v1');

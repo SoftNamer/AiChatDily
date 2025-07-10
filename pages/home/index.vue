@@ -261,8 +261,8 @@
 
 	// 聊天配置
 	const chatConfig = reactive({
-		apiKey: 'app-orlLU9Qb0tU7wcShLvpPA9qI',
-		baseUrl: 'http://localhost/v1',
+		apiKey: 'app-FkDM0qopxHtZx4hrovISYbwh',
+		baseUrl: 'http://ai.yuhwyuan.com/v1',
 		userId: 'user1',
 		robotType: '智能助手'
 	})
@@ -272,7 +272,8 @@
 		sendChatMessage,
 		deleteConversation,
 		resetConversation: resetChatConversation,
-		getCurrentConversationId
+		getCurrentConversationId,
+		getConversationHistory
 	} = useDifyChat()
 
 	// 计算属性
@@ -314,6 +315,8 @@
 
 	// 初始化
 	onMounted(() => {
+		const response = getConversationHistory();
+		console.log(response)
 		loadSavedConfig()
 		// 自动聚焦到输入框
 		nextTick(() => {
@@ -448,7 +451,7 @@
 	// 更新当前会话信息
 	const updateCurrentConversation = (message, isAssistant = false) => {
 		const conv = currentConversation.value
-		if (!conv.title && !isAssistant) {
+		if (!conv && !isAssistant) {
 			// 用第一条用户消息作为会话标题（取前20个字符）
 			conv.title = message.length > 20 ? message.substring(0, 20) + '...' : message
 		}

@@ -1,14 +1,21 @@
 import { ref } from 'vue'
 
 // Dify API配置
-const API_BASE_URL = 'http://localhost/v1'
-const API_KEY = 'app-orlLU9Qb0tU7wcShLvpPA9qI' // 从app.md获取的API KEY
+// 本地Ollama
+// const API_BASE_URL = 'http://localhost/v1'
+// const API_KEY = 'app-orlLU9Qb0tU7wcShLvpPA9qI' // 从app.md获取的API KEY
 
 // const API_BASE_URL = 'http://183.230.27.247/v1'
 // const API_KEY = 'app-ZUe9X1ze40XIPnZFQxECINIJ' // 从app.md获取的API KEY
 
+// 正式通义千问
+const API_BASE_URL = 'http://ai.yuhwyuan.com/v1'
+const API_KEY = 'app-FkDM0qopxHtZx4hrovISYbwh'
+
+
 export function useDifyChat() {
   const conversationId = ref('')
+  conversationId.value = localStorage.getItem('yy_conversation_id')
   const isConnected = ref(false)
   const controller = ref(null)
 
@@ -87,6 +94,7 @@ export function useDifyChat() {
               // 更新conversation_id
               if (data.conversation_id && !conversationId.value) {
                 conversationId.value = data.conversation_id
+				localStorage.setItem('yy_conversation_id', JSON.stringify(conversationId.value))
                 console.log('设置conversation_id:', conversationId.value)
               }
 
@@ -308,23 +316,25 @@ export function useDifyChat() {
     if (!id) {
       throw new Error('没有指定会话ID')
     }
-
+  
     try {
       const response = await fetch(`${API_BASE_URL}/conversations/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${API_KEY}`
-        }
+          'Authorization': `Bearer ${API_KEY}`,
+          'Content-Type': 'application/json' // 添加Content-Type头
+        },
+        body: JSON.stringify({ user: "abc-123" }) // 添加user参数
       })
-
+  
       if (!response.ok) {
         throw new Error(`删除会话失败: ${response.status}`)
       }
-
+  
       if (id === conversationId.value) {
         resetConversation()
       }
-
+  
       console.log('会话已删除')
     } catch (error) {
       console.error('删除会话失败:', error)
@@ -433,6 +443,7 @@ export function useDifyChat() {
    */
   const resetConversation = () => {
     conversationId.value = ''
+	localStorage.removeItem('yy_conversation_id')
     isConnected.value = false
     controller.value = null
     console.log('会话已重置')
@@ -442,6 +453,7 @@ export function useDifyChat() {
    * 获取当前会话ID
    */
   const getCurrentConversationId = () => {
+	conversationId.value = localStorage.getItem('yy_conversation_id')
     return conversationId.value
   }
 
