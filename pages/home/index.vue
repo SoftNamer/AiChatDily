@@ -13,7 +13,17 @@
 
 			<div class="new-chat-btn-container" v-if="!sidebarCollapsed">
 				<div @click="resetConversation" class="new-chat-btn">
-					<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.10999 27C8.92999 27 8.76001 26.96 8.60001 26.9C8.43001 26.83 8.29 26.74 8.16 26.61C8.03 26.49 7.94 26.3499 7.87 26.1899C7.79999 26.0299 7.76001 25.8599 7.76001 25.6899L7.73001 23.04C7.34001 22.98 6.95001 22.8799 6.57001 22.7599C6.19001 22.6299 5.83001 22.48 5.48001 22.29C5.13001 22.1 4.79999 21.88 4.48999 21.63C4.17999 21.39 3.89 21.1199 3.63 20.82C3.37 20.52 3.13999 20.21 2.92999 19.87C2.72999 19.53 2.56001 19.18 2.42001 18.82C2.28001 18.45 2.17001 18.07 2.10001 17.69C2.03001 17.3 2 16.92 2 16.53V9.46995C2 9.03995 2.04 8.61995 2.12 8.19995C2.21 7.77995 2.34 7.36995 2.5 6.96995C2.67 6.57995 2.88 6.19995 3.12 5.84995C3.36 5.48995 3.64001 5.15995 3.95001 4.85995C4.26001 4.55995 4.59999 4.28995 4.95999 4.04995C5.32999 3.80995 5.70999 3.60995 6.10999 3.44995C6.51999 3.27995 6.94 3.15995 7.37 3.07995C7.79999 2.98995 8.23001 2.94995 8.67001 2.94995H13.3C13.46 2.94995 13.61 2.97995 13.76 3.03995C13.9 3.09995 14.03 3.17995 14.14 3.28995C14.25 3.39995 14.33 3.51995 14.39 3.65995C14.45 3.79995 14.48 3.94995 14.48 4.09995C14.48 4.25995 14.45 4.39995 14.39 4.54995C14.33 4.68995 14.25 4.80995 14.14 4.91995C14.03 5.02995 13.9 5.10995 13.76 5.16995C13.61 5.22995 13.46 5.25995 13.3 5.25995H8.67001C8.38001 5.25995 8.09999 5.27995 7.82999 5.33995C7.54999 5.38995 7.27999 5.46995 7.01999 5.57995C6.75999 5.67995 6.50999 5.80995 6.26999 5.96995C6.03999 6.11995 5.82 6.29995 5.62 6.48995C5.42 6.68995 5.23999 6.89995 5.07999 7.12995C4.92999 7.35995 4.78999 7.59995 4.67999 7.85995C4.57999 8.10995 4.49 8.37995 4.44 8.64995C4.38 8.91995 4.35999 9.18995 4.35999 9.46995V16.53C4.35999 16.81 4.38 17.08 4.44 17.36C4.5 17.63 4.58 17.9 4.69 18.16C4.8 18.42 4.93 18.67 5.09 18.9C5.25 19.13 5.43001 19.3499 5.64001 19.5499C5.84001 19.75 6.05999 19.92 6.29999 20.08C6.53999 20.24 6.79 20.37 7.06 20.47C7.32 20.58 7.6 20.66 7.88 20.72C8.16001 20.77 8.44001 20.7999 8.73001 20.7999C8.91001 20.7999 9.08 20.83 9.25 20.9C9.41 20.97 9.55999 21.0599 9.67999 21.18C9.80999 21.3099 9.91001 21.45 9.98001 21.61C10.05 21.77 10.08 21.94 10.09 22.11L10.1 23.74L13.08 21.61C13.84 21.07 14.69 20.7999 15.63 20.7999H19.32C19.61 20.7999 19.89 20.77 20.16 20.72C20.44 20.67 20.71 20.59 20.97 20.4799C21.23 20.3699 21.48 20.24 21.72 20.09C21.95 19.94 22.17 19.76 22.37 19.57C22.57 19.3699 22.75 19.16 22.91 18.93C23.07 18.7 23.2 18.46 23.31 18.2C23.41 17.95 23.5 17.68 23.55 17.41C23.61 17.14 23.63 16.87 23.63 16.59V12.94C23.63 12.79 23.66 12.64 23.72 12.5C23.78 12.36 23.87 12.23 23.98 12.13C24.09 12.02 24.22 11.93 24.36 11.88C24.51 11.82 24.66 11.79 24.82 11.79C24.97 11.79 25.12 11.82 25.27 11.88C25.41 11.93 25.54 12.02 25.65 12.13C25.76 12.23 25.85 12.36 25.91 12.5C25.97 12.64 26 12.79 26 12.94V16.59C26 17.02 25.95 17.44 25.87 17.86C25.78 18.28 25.66 18.69 25.49 19.08C25.32 19.48 25.11 19.8499 24.87 20.2099C24.63 20.57 24.35 20.9 24.04 21.2C23.73 21.5 23.39 21.7699 23.03 22.0099C22.67 22.2499 22.28 22.45 21.88 22.61C21.47 22.77 21.06 22.9 20.63 22.9799C20.2 23.07 19.76 23.11 19.32 23.11H16.4C15.47 23.11 14.62 23.3799 13.86 23.9199L9.91 26.74C9.67 26.91 9.39999 27 9.10999 27Z" fill="currentColor"></path><path d="M24.6805 5.14453H18.1874C17.5505 5.14453 17.0342 5.66086 17.0342 6.29778C17.0342 6.9347 17.5505 7.45102 18.1874 7.45102H24.6805C25.3175 7.45102 25.8338 6.9347 25.8338 6.29778C25.8338 5.66086 25.3175 5.14453 24.6805 5.14453Z" fill="currentColor"></path><path d="M22.6137 3.1804C22.6137 2.52848 22.0852 2 21.4333 2C20.7814 2 20.2529 2.52848 20.2529 3.1804V9.4168C20.2529 10.0687 20.7814 10.5972 21.4333 10.5972C22.0852 10.5972 22.6137 10.0687 22.6137 9.4168V3.1804Z" fill="currentColor"></path></svg>
+					<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M9.10999 27C8.92999 27 8.76001 26.96 8.60001 26.9C8.43001 26.83 8.29 26.74 8.16 26.61C8.03 26.49 7.94 26.3499 7.87 26.1899C7.79999 26.0299 7.76001 25.8599 7.76001 25.6899L7.73001 23.04C7.34001 22.98 6.95001 22.8799 6.57001 22.7599C6.19001 22.6299 5.83001 22.48 5.48001 22.29C5.13001 22.1 4.79999 21.88 4.48999 21.63C4.17999 21.39 3.89 21.1199 3.63 20.82C3.37 20.52 3.13999 20.21 2.92999 19.87C2.72999 19.53 2.56001 19.18 2.42001 18.82C2.28001 18.45 2.17001 18.07 2.10001 17.69C2.03001 17.3 2 16.92 2 16.53V9.46995C2 9.03995 2.04 8.61995 2.12 8.19995C2.21 7.77995 2.34 7.36995 2.5 6.96995C2.67 6.57995 2.88 6.19995 3.12 5.84995C3.36 5.48995 3.64001 5.15995 3.95001 4.85995C4.26001 4.55995 4.59999 4.28995 4.95999 4.04995C5.32999 3.80995 5.70999 3.60995 6.10999 3.44995C6.51999 3.27995 6.94 3.15995 7.37 3.07995C7.79999 2.98995 8.23001 2.94995 8.67001 2.94995H13.3C13.46 2.94995 13.61 2.97995 13.76 3.03995C13.9 3.09995 14.03 3.17995 14.14 3.28995C14.25 3.39995 14.33 3.51995 14.39 3.65995C14.45 3.79995 14.48 3.94995 14.48 4.09995C14.48 4.25995 14.45 4.39995 14.39 4.54995C14.33 4.68995 14.25 4.80995 14.14 4.91995C14.03 5.02995 13.9 5.10995 13.76 5.16995C13.61 5.22995 13.46 5.25995 13.3 5.25995H8.67001C8.38001 5.25995 8.09999 5.27995 7.82999 5.33995C7.54999 5.38995 7.27999 5.46995 7.01999 5.57995C6.75999 5.67995 6.50999 5.80995 6.26999 5.96995C6.03999 6.11995 5.82 6.29995 5.62 6.48995C5.42 6.68995 5.23999 6.89995 5.07999 7.12995C4.92999 7.35995 4.78999 7.59995 4.67999 7.85995C4.57999 8.10995 4.49 8.37995 4.44 8.64995C4.38 8.91995 4.35999 9.18995 4.35999 9.46995V16.53C4.35999 16.81 4.38 17.08 4.44 17.36C4.5 17.63 4.58 17.9 4.69 18.16C4.8 18.42 4.93 18.67 5.09 18.9C5.25 19.13 5.43001 19.3499 5.64001 19.5499C5.84001 19.75 6.05999 19.92 6.29999 20.08C6.53999 20.24 6.79 20.37 7.06 20.47C7.32 20.58 7.6 20.66 7.88 20.72C8.16001 20.77 8.44001 20.7999 8.73001 20.7999C8.91001 20.7999 9.08 20.83 9.25 20.9C9.41 20.97 9.55999 21.0599 9.67999 21.18C9.80999 21.3099 9.91001 21.45 9.98001 21.61C10.05 21.77 10.08 21.94 10.09 22.11L10.1 23.74L13.08 21.61C13.84 21.07 14.69 20.7999 15.63 20.7999H19.32C19.61 20.7999 19.89 20.77 20.16 20.72C20.44 20.67 20.71 20.59 20.97 20.4799C21.23 20.3699 21.48 20.24 21.72 20.09C21.95 19.94 22.17 19.76 22.37 19.57C22.57 19.3699 22.75 19.16 22.91 18.93C23.07 18.7 23.2 18.46 23.31 18.2C23.41 17.95 23.5 17.68 23.55 17.41C23.61 17.14 23.63 16.87 23.63 16.59V12.94C23.63 12.79 23.66 12.64 23.72 12.5C23.78 12.36 23.87 12.23 23.98 12.13C24.09 12.02 24.22 11.93 24.36 11.88C24.51 11.82 24.66 11.79 24.82 11.79C24.97 11.79 25.12 11.82 25.27 11.88C25.41 11.93 25.54 12.02 25.65 12.13C25.76 12.23 25.85 12.36 25.91 12.5C25.97 12.64 26 12.79 26 12.94V16.59C26 17.02 25.95 17.44 25.87 17.86C25.78 18.28 25.66 18.69 25.49 19.08C25.32 19.48 25.11 19.8499 24.87 20.2099C24.63 20.57 24.35 20.9 24.04 21.2C23.73 21.5 23.39 21.7699 23.03 22.0099C22.67 22.2499 22.28 22.45 21.88 22.61C21.47 22.77 21.06 22.9 20.63 22.9799C20.2 23.07 19.76 23.11 19.32 23.11H16.4C15.47 23.11 14.62 23.3799 13.86 23.9199L9.91 26.74C9.67 26.91 9.39999 27 9.10999 27Z"
+							fill="currentColor"></path>
+						<path
+							d="M24.6805 5.14453H18.1874C17.5505 5.14453 17.0342 5.66086 17.0342 6.29778C17.0342 6.9347 17.5505 7.45102 18.1874 7.45102H24.6805C25.3175 7.45102 25.8338 6.9347 25.8338 6.29778C25.8338 5.66086 25.3175 5.14453 24.6805 5.14453Z"
+							fill="currentColor"></path>
+						<path
+							d="M22.6137 3.1804C22.6137 2.52848 22.0852 2 21.4333 2C20.7814 2 20.2529 2.52848 20.2529 3.1804V9.4168C20.2529 10.0687 20.7814 10.5972 21.4333 10.5972C22.0852 10.5972 22.6137 10.0687 22.6137 9.4168V3.1804Z"
+							fill="currentColor"></path>
+					</svg>
 					新会话
 				</div>
 			</div>
@@ -39,8 +49,8 @@
 									fill="currentColor"></path>
 							</svg></div>
 						<div class="conv-text">
-							<p class="conv-title">{{ conv.title || '无标题会话' }}</p>
-							<p class="conv-last-message">{{ conv.lastMessage || '点击继续聊天' }}</p>
+							<p class="conv-title">{{ conv.name || '无标题会话' }}</p>
+							<p class="conv-last-message">{{ conv.introduction || '点击继续聊天' }}</p>
 						</div>
 					</div>
 					<div @click.stop="deleteConversationHandle(conv.id)" class="delete-conv-btn">×</div>
@@ -49,12 +59,13 @@
 		</div>
 
 		<!-- 主内容区 -->
-		<div class="main-content" @click="handleMainContentClick">
+		<div class="main-content" @click="handleMainContentClick" :style="{width: isSidebarOpen ? 'calc(100% - 15px * 2 - 260px)' : 'calc(100% - 15px * 2)'}">
 			<!-- 标题栏 -->
 			<div class="chat-header">
 				<div class="header-controls">
 					<div @click.stop="isSidebarOpen = !isSidebarOpen" class="current-conv-title">
-						<svg v-if="!isSidebarOpen" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<svg v-if="!isSidebarOpen" width="28" height="28" viewBox="0 0 28 28" fill="none"
+							xmlns="http://www.w3.org/2000/svg">
 							<path
 								d="M23.7222 4H4.27776C3.57207 4 3 4.57207 3 5.27776C3 5.98345 3.57207 6.55553 4.27776 6.55553H23.7222C24.4279 6.55553 25 5.98345 25 5.27776C25 4.57207 24.4279 4 23.7222 4Z"
 								fill="currentColor"></path>
@@ -65,8 +76,19 @@
 								d="M23.7222 21.7334H4.27776C3.57207 21.7334 3 22.3055 3 23.0112C3 23.7169 3.57207 24.2889 4.27776 24.2889H23.7222C24.4279 24.2889 25 23.7169 25 23.0112C25 22.3055 24.4279 21.7334 23.7222 21.7334Z"
 								fill="currentColor"></path>
 						</svg>
-						<svg v-else width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.27777 24.2888L23.7222 24.2888C24.4279 24.2888 25 23.7167 25 23.0111C25 22.3054 24.4279 21.7333 23.7222 21.7333L4.27777 21.7333C3.57208 21.7333 3 22.3054 3 23.0111C3 23.7167 3.57208 24.2888 4.27777 24.2888Z" fill="currentColor"></path><path d="M13.2407 15.4001L23.7222 15.4001C24.4279 15.4001 25 14.8281 25 14.1224C25 13.4167 24.4279 12.8446 23.7222 12.8446L13.2407 12.8446C12.535 12.8446 11.963 13.4167 11.963 14.1224C11.963 14.8281 12.535 15.4001 13.2407 15.4001Z" fill="currentColor"></path><path d="M4.27777 6.55542L23.7222 6.55542C24.4279 6.55542 25 5.98334 25 5.27765C25 4.57197 24.4279 3.99989 23.7222 3.99989L4.27777 3.99989C3.57208 3.99989 3 4.57197 3 5.27765C3 5.98334 3.57208 6.55542 4.27777 6.55542Z" fill="currentColor"></path></svg>
-						
+						<svg v-else width="28" height="28" viewBox="0 0 28 28" fill="none"
+							xmlns="http://www.w3.org/2000/svg">
+							<path
+								d="M4.27777 24.2888L23.7222 24.2888C24.4279 24.2888 25 23.7167 25 23.0111C25 22.3054 24.4279 21.7333 23.7222 21.7333L4.27777 21.7333C3.57208 21.7333 3 22.3054 3 23.0111C3 23.7167 3.57208 24.2888 4.27777 24.2888Z"
+								fill="currentColor"></path>
+							<path
+								d="M13.2407 15.4001L23.7222 15.4001C24.4279 15.4001 25 14.8281 25 14.1224C25 13.4167 24.4279 12.8446 23.7222 12.8446L13.2407 12.8446C12.535 12.8446 11.963 13.4167 11.963 14.1224C11.963 14.8281 12.535 15.4001 13.2407 15.4001Z"
+								fill="currentColor"></path>
+							<path
+								d="M4.27777 6.55542L23.7222 6.55542C24.4279 6.55542 25 5.98334 25 5.27765C25 4.57197 24.4279 3.99989 23.7222 3.99989L4.27777 3.99989C3.57208 3.99989 3 4.57197 3 5.27765C3 5.98334 3.57208 6.55542 4.27777 6.55542Z"
+								fill="currentColor"></path>
+						</svg>
+
 					</div>
 					<!-- <h2 class="current-conv-title">{{ currentConversationTitle || '新会话' }}</h2> -->
 				</div>
@@ -100,7 +122,7 @@
 					</div>
 					<h3>您好！我是玉洪航远智能助手</h3>
 					<p>有什么可以帮助您的吗？</p>
-<!-- 					<div class="suggestions">
+					<!-- 					<div class="suggestions">
 						<div @click="sendSuggestedMessage('智能工程学院简介')" class="suggestion-btn">智能工程学院简介</div>
 						<div @click="sendSuggestedMessage('智能工程学院师资力量')" class="suggestion-btn">智能工程学院师资力量</div>
 						<div @click="sendSuggestedMessage('智能工程学院招生简介')" class="suggestion-btn">智能工程学院招生简介</div>
@@ -118,7 +140,7 @@
 							<!-- <div class="message-time">{{ formatTime(message.timestamp) }}</div> -->
 						</div>
 						<div class="message-time" @click.stop="copyToClipboard(message.content, $event.target)"
-    title="复制消息">
+							title="复制消息">
 							<image class="message-copy" src="/static/copy.png" />
 						</div>
 					</div>
@@ -141,7 +163,7 @@
 
 			<!-- 输入区域 -->
 			<div class="ds-input-container">
-				<div class="ds-input-wrapper">
+				<div class="ds-input-wrapper" :style="{width: isSidebarOpen ? 'calc(100% - 15px * 2 - 260px)' : 'calc(100% - 15px * 2)'}">
 					<!-- 输入框容器，包含文本区域和内部按钮 -->
 					<div class="ds-input-with-actions">
 						<textarea v-model="inputMessage" placeholder="给 玉洪航远 发送消息" class="ds-input" :rows="rows"
@@ -194,22 +216,7 @@
 									@change="handleFileUpload">
 							</div>
 
-							<!-- 右侧发送按钮 -->
-							<div class="ds-send-btn ds-send-btn-inner" @click="sendMessage"
-								:disabled="isLoading || !inputMessage.trim()">
-								<svg width="14" height="16" viewBox="0 0 14 16" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" clip-rule="evenodd"
-										d="M7 16c-.595 0-1.077-.462-1.077-1.032V1.032C5.923.462 6.405 0 7 0s1.077.462 1.077 1.032v13.936C8.077 15.538 7.595 16 7 16z"
-										fill="currentColor"></path>
-									<path fill-rule="evenodd" clip-rule="evenodd"
-										d="M.315 7.44a1.002 1.002 0 0 1 0-1.46L6.238.302a1.11 1.11 0 0 1 1.523 0c.421.403.421 1.057 0 1.46L1.838 7.44a1.11 1.11 0 0 1-1.523 0z"
-										fill="currentColor"></path>
-									<path fill-rule="evenodd" clip-rule="evenodd"
-										d="M13.685 7.44a1.11 1.11 0 0 1-1.523 0L6.238 1.762a1.002 1.002 0 0 1 0-1.46 1.11 1.11 0 0 1 1.523 0l5.924 5.678c.42.403.42 1.056 0 1.46z"
-										fill="currentColor"></path>
-								</svg>
-							</div>
+							<!-- 右侧发送按钮 -->							<div class="ds-send-btn ds-send-btn-inner" @click="sendMessage"								:disabled="isLoading || !inputMessage.trim()">								<image class="send-icon" :src="(isLoading || !inputMessage.trim()) ? '/static/send_disable.png' : '/static/send_default.png'" />							</div>
 						</div>
 					</div>
 				</div>
@@ -233,10 +240,25 @@
 	import {
 		marked
 	} from 'marked'
-	import {
-		useDifyChat
-	} from '../composables/useDifyChat'
+
 	import ConfigPanel from '../components/ConfigPanel.vue'
+
+	import {
+		useDifyChat,
+		setDifyEnvironment
+	} from '../utils/difyApi.js'
+
+	// 使用聊天功能
+	const {
+		conversationId,
+		isConnected,
+		sendChatMessage,
+		getConversationList,
+		getConversationHistory,
+		deleteConversation,
+		stopResponse
+	} = useDifyChat()
+
 
 	// 响应式数据
 	const messages = ref([])
@@ -245,7 +267,6 @@
 	const errorMessage = ref('')
 	const messagesContainer = ref(null)
 	const showConfigPanel = ref(false)
-	const isConnected = ref(false)
 	const sidebarCollapsed = ref(false)
 	const messageInput = ref(null)
 	const rows = ref(2) // 新增：控制文本框初始行数
@@ -253,12 +274,8 @@
 	const isSidebarOpen = ref(false);
 
 	// 会话管理
-	const conversations = ref([{
-		id: 'current',
-		title: '',
-		lastMessage: '',
-		timestamp: new Date().getTime()
-	}])
+	const conversations = ref([])
+	const conversationsHistory = ref([])
 	const currentConversationId = ref('current')
 
 	// 聊天配置
@@ -268,15 +285,6 @@
 		userId: 'user1',
 		robotType: '智能助手'
 	})
-
-	// 使用Dify聊天API
-	const {
-		sendChatMessage,
-		deleteConversation,
-		resetConversation: resetChatConversation,
-		getCurrentConversationId,
-		getConversationList
-	} = useDifyChat()
 
 	// 计算属性
 	const currentConversation = computed(() => {
@@ -298,146 +306,191 @@
 				console.warn('加载保存的配置失败:', error)
 			}
 		}
-
-		// 加载保存的会话
-		const savedConversations = localStorage.getItem('dify-conversations')
-		if (savedConversations) {
-			try {
-				conversations.value = JSON.parse(savedConversations)
-			} catch (error) {
-				console.warn('加载保存的会话失败:', error)
-			}
-		}
 	}
 
-	// 保存会话到本地存储
-	const saveConversations = () => {
-		localStorage.setItem('dify-conversations', JSON.stringify(conversations.value))
-	}
-
-	// 初始化
-	onMounted(() => {
-		const response = getConversationList();
-		console.log(response)
+	// 在 onMounted 中进行异步调用
+	onMounted(async () => {
+		await getConversationLists(true);
 		loadSavedConfig()
 		// 自动聚焦到输入框
 		nextTick(() => {
 			messageInput.value?.focus()
 		})
-	})
+	});
 
+	// 获取会话列表
+	const getConversationLists = async (loadDefault) => {
+		isLoading.value = true;
+		try {
+			const result = await getConversationList(1, 20);
+			// 将结果赋值给响应式变量（result 即为接口返回的 data 字段）
+			conversations.value = result.data
+			console.log('组件挂载后获取到的历史数据:', conversations.value);
+			if (conversations.value.length > 0 && loadDefault) {
+				getConversationHistoryList(conversations.value[0].id)
+			}
+		} catch (error) {
+			console.error('onMounted 异步调用失败:', error);
+		} finally {
+			isLoading.value = false;
+		}
+	}
+
+	// 获取会话历史消息
+	const getConversationHistoryList = async (id) => {
+		if(!id){
+			return
+		}
+		isLoading.value = true;
+		try {
+			const result = await getConversationHistory(1, 20, id);
+			// 将结果赋值给响应式变量（result 即为接口返回的 data 字段）
+			conversationsHistory.value = result.data
+			if (conversationsHistory.value.length > 0) {
+				conversationsHistory.value.forEach(item => {
+					const assistantMessage1 = {
+						id: item.id,
+						type: 'user',
+						content: item.query, // 最终显示内容
+						pendingContent: '', // 待处理的流式内容
+						typingInterval: null, // 打字效果定时器
+						timestamp: new Date()
+					};
+					messages.value.push(assistantMessage1);
+
+					const assistantMessage2 = {
+						id: item.id,
+						type: 'assistant',
+						content: item.answer, // 最终显示内容
+						pendingContent: '', // 待处理的流式内容
+						typingInterval: null, // 打字效果定时器
+						timestamp: new Date()
+					};
+					messages.value.push(assistantMessage2);
+				})
+
+			}
+			console.log('组件挂载后获取到的历史数据:', result);
+		} catch (error) {
+			console.error('onMounted 异步调用失败:', error);
+		} finally {
+			isLoading.value = false;
+			isSidebarOpen.value = false;
+		}
+	}
 
 	// 发送消息
 	const sendMessage = async () => {
-	  if (!inputMessage.value.trim() || isLoading.value) return;
-	  const userMessageText = inputMessage.value;
-	  const messageId = Date.now();
-	
-	  // 添加用户消息
-	  messages.value.push({
-	    id: messageId,
-	    type: 'user',
-	    content: userMessageText,
-	    timestamp: new Date()
-	  });
-	
-	  // 更新当前会话信息
-	  updateCurrentConversation(userMessageText);
-	
-	  inputMessage.value = '';
-	  isLoading.value = true;
-	  errorMessage.value = '';
-	  scrollToBottom();
-	
-	  try {
-	    // 创建助手消息容器（带打字效果相关属性）
-	    const assistantMessageId = messageId + 1;
-	    const assistantMessage = {
-	      id: assistantMessageId,
-	      type: 'assistant',
-	      content: '',        // 最终显示内容
-	      pendingContent: '', // 待处理的流式内容
-	      typingInterval: null, // 打字效果定时器
-	      timestamp: new Date()
-	    };
-	
-	    // 处理流式响应的函数
-	    const handleStreamChunk = (chunk) => {
-	      if (chunk.event === 'message') {
-	        // 将新内容添加到待处理队列
-	        assistantMessage.pendingContent += chunk.answer || '';
-	        
-	        // 如果没有正在运行的定时器，启动打字效果
-			startTypingEffect(assistantMessage);
-	        if (!assistantMessage.typingInterval) {
-	          
-	        }
-	      } else if (chunk.event === 'message_end') {
-	        console.log('消息结束，元数据:', chunk.metadata);
-	        isConnected.value = true;
-	        // 确保所有内容都显示后更新会话
-	        const checkComplete = () => {
-	          if (assistantMessage.pendingContent || assistantMessage.typingInterval) {
-	            setTimeout(checkComplete, 100);
-	          } else {
-	            updateCurrentConversation(assistantMessage.content, true);
-	          }
-	        };
-	        checkComplete();
-	      } else if (chunk.event === 'workflow_started') {
-	        isConnected.value = true;
-	      }
-	    };
-	    // 发送请求并处理流式响应
-	    await sendChatMessage(userMessageText, handleStreamChunk, {
-	      robotType: chatConfig.robotType
-	    });
-		messages.value.push(assistantMessage);
-	  } catch (error) {
-	    console.error('发送消息失败:', error);
-	    errorMessage.value = `发送消息失败：${error.message}`;
-	    isConnected.value = false;
-	    // 移除失败的助手消息
-	    messages.value = messages.value.filter(msg => msg.id !== messages.value[messages.value.length - 1]?.id);
-	  } finally {
-	    isLoading.value = false;
-	    // 确保最后还有未显示的内容能被处理
-	    const lastMsg = messages.value[messages.value.length - 1];
-	    if (lastMsg?.pendingContent) {
-	      startTypingEffect(lastMsg);
-	    }
-	    // 重新聚焦到输入框
-	    nextTick(() => {
-	      messageInput.value?.focus();
-	    });
-	  }
+		if (!inputMessage.value.trim() || isLoading.value) return;
+		const userMessageText = inputMessage.value;
+		const messageId = Date.now();
+
+		// 添加用户消息
+		messages.value.push({
+			id: messageId,
+			type: 'user',
+			content: userMessageText,
+			timestamp: new Date()
+		});
+		// 更新当前会话信息
+		// updateCurrentConversation(userMessageText);
+
+		inputMessage.value = '';
+		isLoading.value = true;
+		errorMessage.value = '';
+		scrollToBottom();
+
+		try {
+			// 创建助手消息容器（带打字效果相关属性）
+			const assistantMessageId = messageId + 1;
+			const assistantMessage = {
+				id: assistantMessageId,
+				type: 'assistant',
+				content: '', // 最终显示内容
+				pendingContent: '', // 待处理的流式内容
+				typingInterval: null, // 打字效果定时器
+				timestamp: new Date()
+			};
+
+			// 处理流式响应的函数
+			const handleStreamChunk = (chunk) => {
+				if (chunk.event === 'message') {
+					// 将新内容添加到待处理队列
+					assistantMessage.pendingContent += chunk.answer || '';
+
+					// 如果没有正在运行的定时器，启动打字效果
+					startTypingEffect(assistantMessage);
+					if (!assistantMessage.typingInterval) {
+
+					}
+				} else if (chunk.event === 'message_end') {
+					console.log('消息结束，元数据:', chunk.metadata);
+					isConnected.value = true;
+					// 确保所有内容都显示后更新会话
+					const checkComplete = () => {
+						if (assistantMessage.pendingContent || assistantMessage.typingInterval) {
+							setTimeout(checkComplete, 100);
+						} else {
+							// updateCurrentConversation(assistantMessage.content, true);
+						}
+					};
+					checkComplete();
+				} else if (chunk.event === 'workflow_started') {
+					isConnected.value = true;
+				}
+			};
+			// 发送请求并处理流式响应
+			await sendChatMessage(userMessageText, handleStreamChunk, {
+				robotType: chatConfig.robotType
+			});
+			messages.value.push(assistantMessage);
+		} catch (error) {
+			console.error('发送消息失败:', error);
+			errorMessage.value = `发送消息失败：${error.message}`;
+			isConnected.value = false;
+			// 移除失败的助手消息
+			messages.value = messages.value.filter(msg => msg.id !== messages.value[messages.value.length - 1]
+			?.id);
+		} finally {
+			isLoading.value = false;
+			// 确保最后还有未显示的内容能被处理
+			const lastMsg = messages.value[messages.value.length - 1];
+			if (lastMsg?.pendingContent) {
+				startTypingEffect(lastMsg);
+			}
+			// 重新聚焦到输入框
+			nextTick(() => {
+				messageInput.value?.focus();
+			});
+			await getConversationLists(false);
+		}
 	};
-	
+
 	// 启动打字效果
 	const startTypingEffect = (message) => {
-	  // 清除可能存在的旧定时器
-	  if (message.typingInterval) {
-	    clearInterval(message.typingInterval);
-	  }
-	
-	  // 打字速度控制（毫秒/字符），可以根据需要调整
-	  const typingSpeed = 30;
-	
-	  // 创建新的定时器
-	  message.typingInterval = setInterval(() => {
-	    if (message.pendingContent.length > 0) {
-	      // 每次取一个字符添加到显示内容
-	      message.content += message.pendingContent.charAt(0);
-	      // 从待处理内容中移除已显示的字符
-	      message.pendingContent = message.pendingContent.slice(1);
-	      // 滚动到底部
-	      scrollToBottom();
-	    } else {
-	      // 没有更多内容时清除定时器
-	      clearInterval(message.typingInterval);
-	      message.typingInterval = null;
-	    }
-	  }, typingSpeed);
+		// 清除可能存在的旧定时器
+		if (message.typingInterval) {
+			clearInterval(message.typingInterval);
+		}
+
+		// 打字速度控制（毫秒/字符），可以根据需要调整
+		const typingSpeed = 30;
+
+		// 创建新的定时器
+		message.typingInterval = setInterval(() => {
+			if (message.pendingContent.length > 0) {
+				// 每次取一个字符添加到显示内容
+				message.content += message.pendingContent.charAt(0);
+				// 从待处理内容中移除已显示的字符
+				message.pendingContent = message.pendingContent.slice(1);
+				// 滚动到底部
+				scrollToBottom();
+			} else {
+				// 没有更多内容时清除定时器
+				clearInterval(message.typingInterval);
+				message.typingInterval = null;
+			}
+		}, typingSpeed);
 	};
 
 	// 发送推荐消息
@@ -461,9 +514,6 @@
 		// 更新最后一条消息预览（取前30个字符）
 		conv.lastMessage = message.length > 30 ? message.substring(0, 30) + '...' : message
 		conv.timestamp = new Date().getTime()
-
-		// 保存会话
-		saveConversations()
 	}
 
 	// 切换会话
@@ -475,53 +525,55 @@
 		currentConversationId.value = id
 		messages.value = []
 		isLoading.value = false
+		console.log(id)
+		getConversationHistoryList(id);
 	}
 
 	// 创建新会话
 	const resetConversation = () => {
 		const newConvId = 'conv_' + Date.now()
-		conversations.value.unshift({
-			id: newConvId,
-			title: '',
-			lastMessage: '',
-			timestamp: new Date().getTime()
-		})
 		currentConversationId.value = newConvId
 		messages.value = []
-		resetChatConversation()
-		saveConversations()
 		// 聚焦到输入框
 		nextTick(() => {
 			messageInput.value?.focus()
 		})
+		isSidebarOpen.value = false;
 	}
 
 	// 删除会话
 	const deleteConversationHandle = (id) => {
-		if (id === currentConversationId.value) {
-			// 如果删除当前会话，切换到第一个会话
-			const firstConv = conversations.value.find(conv => conv.id !== id)
-			if (firstConv) {
-				currentConversationId.value = firstConv.id
-				messages.value = [] // 实际项目中应该加载新会话的消息
-			} else {
-				// 如果是最后一个会话，创建一个新会话
-				resetConversation()
+		uni.showModal({
+			title: '确认删除',
+			content: '确定要删除这个会话吗？此操作不可撤销。',
+			confirmText: '删除',
+			confirmColor: '#FF4500',
+			cancelText: '取消',
+			success: (res) => {
+				if (res.confirm) {
+					// 用户点击删除
+					if (id === currentConversationId.value) {
+						// 如果删除当前会话，切换到第一个会话
+						const firstConv = conversations.value.find(conv => conv.id !== id)
+						if (firstConv) {
+							currentConversationId.value = firstConv.id
+							messages.value = [] // 实际项目中应该加载新会话的消息
+						}
+					}
+					console.log(id)
+					deleteConversation(id)
+					conversations.value = conversations.value.filter(conv => conv.id !== id)
+				} else if (res.cancel) {
+					// 用户点击取消，不执行任何操作
+				}
 			}
-		}
-		deleteConversation(id)
-		conversations.value = conversations.value.filter(conv => conv.id !== id)
-		saveConversations()
-		
-		
+		})
 	}
 
 	// 清空所有会话
 	const clearAllConversations = () => {
 		if (confirm('确定要清空所有会话吗？此操作不可恢复。')) {
 			conversations.value = []
-			resetConversation()
-			saveConversations()
 		}
 	}
 
@@ -577,20 +629,38 @@
 		})
 	}
 
-	// 调整文本域高度
+	/**
+	 * 调整文本域高度（兼容多种触发场景，增加容错处理）
+	 */
 	const adjustTextareaHeight = (e) => {
-		const textarea = e.target
-		textarea.style.height = 'auto'
-		textarea.style.height = (textarea.scrollHeight) + 'px'
+		// 容错处理：确保事件对象和目标元素存在
+		if (!e || !e.target) {
+			console.warn('调整文本域高度失败：未获取到有效元素');
+			return;
+		}
+
+		const textarea = e.target;
+
+		// 额外校验：确保目标是 textarea 元素（防止绑定到其他元素）
+		if (textarea.tagName !== 'TEXTAREA') {
+			console.warn('调整文本域高度失败：目标元素不是 textarea');
+			return;
+		}
+
+		// 重置高度以计算真实滚动高度
+		textarea.style.height = 'auto';
+		// 设置高度为内容滚动高度（+2px 避免边框导致的滚动条闪烁）
+		textarea.style.height = `${textarea.scrollHeight + 2}px`;
 
 		// 限制最大高度
-		if (textarea.scrollHeight > 160) {
-			textarea.style.overflowY = 'auto'
-			textarea.style.height = '160px'
+		const maxHeight = 160; // 最大高度常量，便于维护
+		if (textarea.scrollHeight > maxHeight) {
+			textarea.style.height = `${maxHeight}px`;
+			textarea.style.overflowY = 'auto';
 		} else {
-			textarea.style.overflowY = 'hidden'
+			textarea.style.overflowY = 'hidden';
 		}
-	}
+	};
 
 	// 处理文件上传
 	const handleFileUpload = (e) => {
@@ -607,31 +677,31 @@
 			isSidebarOpen.value = false;
 		}
 	};
-	
+
 	// 复制文本到剪贴板（uni-app版本）
 	const copyToClipboard = async (text) => {
-	  try {
-	    // 复制文本到剪贴板
-	    await uni.setClipboardData({
-	      data: text,
-	      success: () => {
-	        // 使用uni-app的提示框显示成功信息
-	        uni.showToast({
-	          title: '复制成功',
-	          icon: 'success',
-	          duration: 500
-	        });
-	      }
-	    });
-	  } catch (err) {
-	    console.error('复制失败:', err);
-	    // 使用uni-app的提示框显示失败信息
-	    uni.showToast({
-	      title: '复制失败，请手动复制',
-	      icon: 'none',
-	      duration: 500
-	    });
-	  }
+		try {
+			// 复制文本到剪贴板
+			await uni.setClipboardData({
+				data: text,
+				success: () => {
+					// 使用uni-app的提示框显示成功信息
+					uni.showToast({
+						title: '复制成功',
+						icon: 'success',
+						duration: 500
+					});
+				}
+			});
+		} catch (err) {
+			console.error('复制失败:', err);
+			// 使用uni-app的提示框显示失败信息
+			uni.showToast({
+				title: '复制失败，请手动复制',
+				icon: 'none',
+				duration: 500
+			});
+		}
 	};
 </script>
 
@@ -680,6 +750,7 @@
 
 	.sidebar-header {
 		padding: 16px;
+		height: 65px;
 		border-bottom: 1px solid #e5e7eb;
 		display: flex;
 		align-items: center;
@@ -722,9 +793,9 @@
 		transition: background-color 0.2s;
 	}
 
-	.new-chat-btn:hover {
+/* 	.new-chat-btn:hover {
 		background-color: #0e4ddb;
-	}
+	} */
 
 	.new-chat-btn span {
 		font-size: 1.25rem;
@@ -824,13 +895,13 @@
 		cursor: pointer;
 		font-size: 1rem;
 		padding: 4px;
-		opacity: 0;
-		transition: opacity 0.2s;
+		opacity: 1;
+		/* transition: opacity 0.2s; */
 	}
 
-	.conversation-item:hover .delete-conv-btn {
+/* 	.conversation-item:hover .delete-conv-btn {
 		opacity: 1;
-	}
+	} */
 
 	/* 主内容区样式 */
 	.main-content {
@@ -921,12 +992,22 @@
 		padding: 32px 16px;
 	}
 
+	.footer-tip {
+		font-size: 12px;
+		color: #a8a8a8;
+		line-height: 14px;
+		margin-top: 10px;
+		width: 100%;
+		text-align: center;
+	}
+
 	.welcome-avatar {
 		width: 100px;
 		margin: calc((100% - 100px) / 2);
 		font-size: 3rem;
 		margin-bottom: 16px;
-		image{
+
+		image {
 			width: 100px;
 			height: 100px;
 		}
@@ -984,7 +1065,8 @@
 		font-size: 1.5rem;
 		min-width: 32px;
 		text-align: center;
-		image{
+
+		image {
 			width: 32px;
 			height: 32px;
 		}
@@ -1031,20 +1113,20 @@
 	}
 
 	.message-copy {
-	  cursor: pointer;
-	  opacity: 0.7;
-	  transition: all 0.2s;
-	  width: 16px;
-	  height: 16px;
+		cursor: pointer;
+		opacity: 0.7;
+		transition: all 0.2s;
+		width: 16px;
+		height: 16px;
 	}
 
 	.message-copy:hover {
-	  opacity: 1;
-	  transform: scale(1.1);
+		opacity: 1;
+		transform: scale(1.1);
 	}
 
 	.message:hover .message-copy {
-	  display: inline-block;
+		display: inline-block;
 	}
 
 	.message.assistant .message-time {
@@ -1095,7 +1177,7 @@
 	}
 
 	.ds-input-wrapper {
-		max-width: 800px;
+		/* max-width: calc(100% - 15px * 2); */
 		margin: 0 auto;
 		position: relative;
 	}
@@ -1196,15 +1278,19 @@
 		margin-left: auto;
 		width: 30px;
 		height: 30px;
-		background-color: #d7dee8;
+/* 		background-color: #d7dee8;
 		color: white;
 		border: none;
-		border-radius: 20px;
+		border-radius: 20px; */
 		cursor: pointer;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		transition: background-color 0.2s;
+		.send-icon{
+			width: 30px;
+			height: 30px;
+		}
 	}
 
 	.ds-send-btn:hover {
@@ -1276,7 +1362,7 @@
 		.welcome-message {
 			padding: 24px 12px;
 		}
-		
+
 		.footer-tip {
 			font-size: 12px;
 			color: #a8a8a8;
