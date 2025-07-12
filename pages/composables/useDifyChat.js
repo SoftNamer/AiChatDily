@@ -10,12 +10,12 @@ import { ref } from 'vue'
 
 // 正式通义千问
 const API_BASE_URL = 'http://ai.yuhwyuan.com/v1'
-const API_KEY = 'app-FkDM0qopxHtZx4hrovISYbwh'
+const API_KEY = 'app-d2uMe8sjDNr1UrPKWMJk6pph'
 
 
 export function useDifyChat() {
   const conversationId = ref('')
-  conversationId.value = localStorage.getItem('yy_conversation_id')
+  conversationId.value = JSON.parse(localStorage.getItem('yy_conversation_id'))
   const isConnected = ref(false)
   const controller = ref(null)
 
@@ -33,7 +33,7 @@ export function useDifyChat() {
         query,
         response_mode: 'streaming',
         conversation_id: conversationId.value,
-        user: options.user || 'user1',
+        user: options.user || 'abc-123',
         inputs: options.inputs || {},
         files: options.files || [],
         auto_generate_name: options.auto_generate_name !== false
@@ -290,17 +290,46 @@ export function useDifyChat() {
    */
   const getConversationList = async (page = 1, pageSize = 20) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/conversations?page=${page}&page_size=${pageSize}`, {
-        headers: {
-          'Authorization': `Bearer ${API_KEY}`
-        }
-      })
 
-      if (!response.ok) {
-        throw new Error(`获取会话列表失败: ${response.status}`)
-      }
-
-      return await response.json()
+      // 请求参数（拼接在 URL 上，GET 方法）
+        const params = {
+          user: 'abc-123',
+          last_id: '',
+          limit: pageSize
+        };
+      
+        // 请求头（包含 Authorization）
+        const header = {
+          'Authorization': `Bearer ${API_KEY}`, // 替换为你的实际 api_key
+          'Content-Type': 'application/json' // GET 方法可省略，但建议带上
+        };
+      
+        // 发起 GET 请求
+        uni.request({
+          url: `${API_BASE_URL}/conversations`,
+          method: 'GET',
+          data: params, // GET 方法中，data 会自动拼接到 URL 上（?user=xxx&last_id=...）
+          header: header,
+          success: (res) => {
+            // 请求成功回调
+            console.log('接口返回数据：', res.data);
+            // 处理返回结果（如更新页面数据）
+            // this.conversations = res.data.data;
+			return res.data
+          },
+          fail: (err) => {
+            // 请求失败回调（如网络错误、跨域未解决等）
+            console.error('请求失败：', err);
+            uni.showToast({
+              title: '请求失败，请稍后重试',
+              icon: 'none'
+            });
+          },
+          complete: () => {
+            // 无论成功失败都会执行（如关闭加载动画）
+            // uni.hideLoading();
+          }
+        });
     } catch (error) {
       console.error('获取会话列表失败:', error)
       throw error
