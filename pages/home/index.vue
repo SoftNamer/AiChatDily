@@ -6,7 +6,7 @@
         'open': isSidebarOpen  // 新增：控制移动端显示
       }">
 			<div class="sidebar-header">
-				<h1 class="logo">玉洪航远</h1>
+				<h1 class="logo">{{ webAppSite.title }}</h1>
 				<div @click="isSidebarOpen = false" class="toggle-btn mobile-close-btn">
 				</div>
 			</div>
@@ -118,9 +118,9 @@
 				<!-- 欢迎提示 -->
 				<div class="welcome-message" v-if="messages.length === 0 && !isLoading">
 					<div class="welcome-avatar">
-						<image class="welcome-logo" src="/static/yhhy.png" />
+						<image class="welcome-logo" :src="webAppSite.icon_url ? chatConfig.url + webAppSite.icon_url : '/static/yhhy.png'" />
 					</div>
-					<h3>您好！我是玉洪航远智能助手</h3>
+					<h3>您好！我是{{webAppSite.title}}智能助手</h3>
 					<p>有什么可以帮助您的吗？</p>
 					<!-- 					<div class="suggestions">
 						<div @click="sendSuggestedMessage('智能工程学院简介')" class="suggestion-btn">智能工程学院简介</div>
@@ -132,7 +132,7 @@
 				<div v-for="message in messages" :key="message.id" class="message" :class="message.type">
 					<div class="message-avatar" v-if="message.type !== 'user'">
 						<!-- <span v-if="message.type === 'user'"></span> -->
-						<image class="welcome-logo" src="/static/yhhy.png" />
+						<image class="welcome-logo" :src="webAppSite.icon_url ? chatConfig.url + webAppSite.icon_url: '/static/yhhy.png'" />
 					</div>
 					<div class="message-content-chat">
 						<div class="message-bubble">
@@ -149,7 +149,7 @@
 				<!-- 正在输入指示器 -->
 				<div v-if="isLoading" class="message assistant">
 					<div class="message-avatar">
-						<image class="welcome-logo" src="/static/yhhy.png" />
+						<image class="welcome-logo" :src="webAppSite.icon_url ? chatConfig.url + webAppSite.icon_url: '/static/yhhy.png'" />
 					</div>
 					<div class="message-content">
 						<div class="typing-indicator">
@@ -166,7 +166,7 @@
 				<div class="ds-input-wrapper" :style="{width: isSidebarOpen ? 'calc(100% - 15px * 2 - 260px)' : 'calc(100% - 15px * 2)'}">
 					<!-- 输入框容器，包含文本区域和内部按钮 -->
 					<div class="ds-input-with-actions">
-						<textarea v-model="inputMessage" placeholder="给 玉洪航远 发送消息" class="ds-input" :rows="rows"
+						<textarea v-model="inputMessage" :placeholder="'给 '+ webAppSite.title +' 发送消息'" class="ds-input" :rows="rows"
 							@input="adjustTextareaHeight" @keyup.enter.exact="sendMessage"
 							@keyup.enter.shift="handleShiftEnter"></textarea>
 
@@ -202,25 +202,27 @@
 									<span>联网搜索</span>
 								</div>
 							</div>
-
-							<!-- 文件发送按钮 -->
-							<div class="ds-upload-btn" v-if="false">
-								<div class="ds-icon">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 20" fill="none">
-										<path
-											d="M7 20c-1.856-.002-3.635-.7-4.947-1.94C.74 16.819.003 15.137 0 13.383V4.828a4.536 4.536 0 0 1 .365-1.843 4.75 4.75 0 0 1 1.087-1.567A5.065 5.065 0 0 1 3.096.368a5.293 5.293 0 0 1 3.888 0c.616.244 1.174.6 1.643 1.05.469.45.839.982 1.088 1.567.25.586.373 1.212.364 1.843v8.555a2.837 2.837 0 0 1-.92 2.027A3.174 3.174 0 0 1 7 16.245c-.807 0-1.582-.3-2.158-.835a2.837 2.837 0 0 1-.92-2.027v-6.22a1.119 1.119 0 1 1 2.237 0v6.22a.777.777 0 0 0 .256.547.868.868 0 0 0 .585.224c.219 0 .429-.08.586-.224a.777.777 0 0 0 .256-.546V4.828A2.522 2.522 0 0 0 7.643 3.8a2.64 2.64 0 0 0-.604-.876 2.816 2.816 0 0 0-.915-.587 2.943 2.943 0 0 0-2.168 0 2.816 2.816 0 0 0-.916.587 2.64 2.64 0 0 0-.604.876 2.522 2.522 0 0 0-.198 1.028v8.555c0 1.194.501 2.339 1.394 3.183A4.906 4.906 0 0 0 7 17.885a4.906 4.906 0 0 0 3.367-1.319 4.382 4.382 0 0 0 1.395-3.183v-6.22a1.119 1.119 0 0 1 2.237 0v6.22c-.002 1.754-.74 3.436-2.052 4.677C10.635 19.3 8.856 19.998 7 20z"
-											fill="currentColor"></path>
-									</svg>
+							
+							<!-- 预览区域 -->
+							<view class="preview-area" v-if="imageUrl">
+							  <image :src="imageUrl" mode="aspectFill"></image>
+							  <text class="uploading-text" v-if="isLoading">上传中...</text>
+							</view>
+							
+							<div class="upload-send-con">
+								<!-- 文件发送按钮 -->
+								<div class="ds-upload-btn" v-if="false">
+									<div class="ds-icon" @click="selectImage">
+										<image class="file-icon" src="/static/file_icon.png" />
+									</div>
 								</div>
-								<input disabled="true" type="file" multiple accept=".pdf,.txt,.docx,.png,.jpg,.jpeg"
-									@change="handleFileUpload">
-							</div>
 
-							<!-- 右侧发送按钮 -->							<div class="ds-send-btn ds-send-btn-inner" @click="sendMessage"								:disabled="isLoading || !inputMessage.trim()">								<image class="send-icon" :src="(isLoading || !inputMessage.trim()) ? '/static/send_disable.png' : '/static/send_default.png'" />							</div>
+								<!-- 右侧发送按钮 -->								<div class="ds-send-btn ds-send-btn-inner" @click="sendMessage"									:disabled="isLoading || !inputMessage.trim()">									<image class="send-icon" :src="(isLoading || !inputMessage.trim()) ? '/static/send_disable.png' : '/static/send_default.png'" />								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="footer-tip">内容由 AI 生成，请仔细甄别</div>
+				<div class="footer-tip">{{ webAppSite.custom_disclaimer }}</div>
 			</div>
 			<!-- 配置面板 -->
 			<ConfigPanel :config="chatConfig" :modelValue="showConfigPanel" @config-change="handleConfigChange"
@@ -252,11 +254,13 @@
 	const {
 		conversationId,
 		isConnected,
+		getWebAppSite,
 		sendChatMessage,
 		getConversationList,
 		getConversationHistory,
 		deleteConversation,
-		stopResponse
+		stopResponse,
+		fileUpload
 	} = useDifyChat()
 
 
@@ -277,9 +281,15 @@
 	const conversations = ref([])
 	const conversationsHistory = ref([])
 	const currentConversationId = ref('current')
+	
+	const webAppSite = ref(null)
+	const fileInputRef = ref(null)
+	const imageUrl = ref('')    // 图片预览地址
+	const uploadFileId = ref('')
 
 	// 聊天配置
 	const chatConfig = reactive({
+		url: 'http://ai.yuhwyuan.com',
 		apiKey: 'app-FkDM0qopxHtZx4hrovISYbwh',
 		baseUrl: 'http://ai.yuhwyuan.com/v1',
 		userId: 'user1',
@@ -310,6 +320,7 @@
 
 	// 在 onMounted 中进行异步调用
 	onMounted(async () => {
+		await getSite()
 		await getConversationLists(true);
 		loadSavedConfig()
 		// 自动聚焦到输入框
@@ -317,6 +328,21 @@
 			messageInput.value?.focus()
 		})
 	});
+	
+	
+	// 获取应用 WebApp 设置
+	const getSite = async () => {
+		isLoading.value = true;
+		try {
+			const result = await getWebAppSite();
+			// 将结果赋值给响应式变量（result 即为接口返回的 data 字段）
+			webAppSite.value = result
+		} catch (error) {
+			console.error('onMounted 异步调用失败:', error);
+		} finally {
+			isLoading.value = false;
+		}
+	}
 
 	// 获取会话列表
 	const getConversationLists = async (loadDefault) => {
@@ -368,9 +394,9 @@
 					};
 					messages.value.push(assistantMessage2);
 				})
-
+				scrollToBottom();
 			}
-			console.log('组件挂载后获取到的历史数据:', result);
+			// console.log('组件挂载后获取到的历史数据:', result);
 		} catch (error) {
 			console.error('onMounted 异步调用失败:', error);
 		} finally {
@@ -441,7 +467,12 @@
 			};
 			// 发送请求并处理流式响应
 			await sendChatMessage(userMessageText, handleStreamChunk, {
-				robotType: chatConfig.robotType
+				robotType: chatConfig.robotType,
+				files: {
+					"type": "image",
+					"transfer_method": "local_file",
+					"url": uploadFileId.value
+				}
 			});
 			messages.value.push(assistantMessage);
 		} catch (error) {
@@ -560,9 +591,12 @@
 							messages.value = [] // 实际项目中应该加载新会话的消息
 						}
 					}
-					console.log(id)
 					deleteConversation(id)
 					conversations.value = conversations.value.filter(conv => conv.id !== id)
+					console.log(conversations.value)
+					if(conversations && conversations.value.length < 1){
+						resetConversation()
+					}
 				} else if (res.cancel) {
 					// 用户点击取消，不执行任何操作
 				}
@@ -661,16 +695,53 @@
 			textarea.style.overflowY = 'hidden';
 		}
 	};
-
-	// 处理文件上传
-	const handleFileUpload = (e) => {
-		const files = e.target.files
-		if (files.length > 0) {
-			console.log('上传的文件:', files)
-			// 这里可以添加文件上传逻辑
-		}
+	
+	// 选择图片
+	const selectImage = () => {
+	  uni.chooseImage({
+	    count: 1,
+	    sizeType: ['compressed'],
+	    sourceType: ['album', 'camera'],
+	    success: (res) => {
+	      console.log('选择图片成功', res)
+	      imageUrl.value = res.tempFilePaths[0]
+	      handleFileUpload(res.tempFilePaths[0])
+	    },
+	    fail: (err) => {
+	      console.error('选择图片失败', err)
+	      uni.showToast({
+	        title: '选择图片失败',
+	        icon: 'none'
+	      })
+	    }
+	  })
 	}
 
+
+	// 处理文件上传
+	 const handleFileUpload = (blobData) => {
+		 const file = new File([blobData], new Date().getTime() + ".jpg", { type: "image/jpeg" })
+		 console.log('转换后的 File 对象：', file);
+		isLoading.value = true;
+		try {
+			const result = fileUpload(file).then((result) => {
+				// result 是 Promise 解析后的对象
+				console.log(result)
+				console.log(result.id)
+				if(result){
+					uploadFileId.value = result.id
+				}
+			})
+			.catch((error) => {
+				console.error('上传失败:', error);
+			});
+		} catch (error) {
+			console.error('onMounted 异步调用失败:', error);
+		} finally {
+			isLoading.value = false;
+		}
+	}
+	
 	// 点击主内容区关闭侧边栏（仅移动端）
 	const handleMainContentClick = () => {
 		if (window.innerWidth <= 768 && isSidebarOpen.value) {
@@ -1092,6 +1163,13 @@
 		line-height: 20px;
 		overflow: hidden;
 	}
+	
+	/* 在消息区域样式中添加 */
+	.message-text,
+	.message-text * {
+	  user-select: text !important;
+	  -webkit-user-select: text !important;
+	}
 
 	.message.user .message-text {}
 
@@ -1244,18 +1322,26 @@
 	}
 
 	.ds-icon {
-		width: 20px;
-		height: 20px;
+		width: 30px;
+		height: 30px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		.file-icon{
+			width: 22px;
+			height: 22px;
+		}
+	}
+	
+	.upload-send-con {
+		width: 100%;
+		display: flex;
+		justify-content: flex-end;
 	}
 
 	.ds-upload-btn {
-		margin-left: auto;
-		position: relative;
 		border: none;
-		padding: 6px;
+		/* padding: 6px; */
 		border-radius: 6px;
 		cursor: pointer;
 		color: #6b7280;
@@ -1264,18 +1350,8 @@
 
 	.ds-upload-btn:hover {}
 
-	.ds-upload-btn input {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		opacity: 0;
-		cursor: pointer;
-	}
-
 	.ds-send-btn {
-		margin-left: auto;
+		/* margin-left: auto; */
 		width: 30px;
 		height: 30px;
 /* 		background-color: #d7dee8;
@@ -1300,6 +1376,21 @@
 	.ds-send-btn:disabled {
 		background-color: #d7dee8;
 		cursor: not-allowed;
+	}
+	
+	.preview-area {
+	  width: 50px;
+	  height: 50px;
+	  margin: 0 auto;
+	  border: 1px solid #eee;
+	  border-radius: 8px;
+	  position: relative;
+	}
+	
+	.preview-area image {
+	  width: 100%;
+	  height: 100%;
+	  border-radius: 8px;
 	}
 
 	/* 滚动条样式 */

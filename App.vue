@@ -13,5 +13,11 @@
 </script>
 
 <style>
-	/*每个页面公共css */
+/* #ifndef H5 */
+html,
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* #endif */
 </style>

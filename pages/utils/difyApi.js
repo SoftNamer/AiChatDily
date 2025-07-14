@@ -62,7 +62,7 @@ function createApiClient() {
 		try {
 			const fullUrl = `${config.baseUrl}/${url}`
 			const headers = {
-				'Content-Type': 'application/json',
+				// 'Content-Type': 'application/json',
 				'Authorization': `Bearer ${config.apiKey}`,
 				...options.headers
 			}
@@ -85,17 +85,34 @@ function createApiClient() {
 	return {
 		get: (url, options) => request(url, {
 			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			...options
 		}),
 		post: (url, data, options) => request(url, {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify(data),
 			...options
 		}),
 		delete: (url, data, options) => request(url, {
 			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify(data),
 			...options
+		}),
+		upload: (url, formData, options) => request(url, {
+		    method: 'POST',
+		    body: formData,
+		    // headers: {
+		    //   'Content-Type': 'multipart/form-data'
+		    // },
+		    ...options
 		})
 	}
 }
@@ -150,11 +167,22 @@ function getBrowserUniqueId() {
  * Dify聊天服务
  */
 export function useDifyChat() {
-	let uid = localStorage.getItem('browser_unique_id')
-	if(!uid){
+	let uid = ""
+	let conversationId = ""
+	let browser_unique_id = localStorage.getItem('browser_unique_id')
+	if(browser_unique_id){
+		uid = browser_unique_id
+	}else{
 		uid = getBrowserUniqueId()
 	}
-	let conversationId = localStorage.getItem('yy_conversation_id')
+
+	
+	let yy_conversation_id = localStorage.getItem('yy_conversation_id')
+	console.log(yy_conversation_id)
+	if(yy_conversation_id){
+		conversationId = yy_conversation_id
+	}
+	
 	const state = reactive({
 		conversationId: conversationId,
 		userId: uid,
@@ -225,7 +253,7 @@ export function useDifyChat() {
 						// 更新conversation_id
 						if (data.conversation_id && !state.conversationId) {
 							state.conversationId = data.conversation_id
-							localStorage.setItem('yy_conversation_id', JSON.stringify(state.conversationId))
+							localStorage.setItem('yy_conversation_id', state.conversationId)
 							console.log('[Dify API] 设置conversation_id:', state.conversationId)
 						}
 
@@ -324,7 +352,7 @@ export function useDifyChat() {
 		state.error = null
 		try {
 			await api.delete('conversations/' +id, {
-				user: "abc-123",
+				user: `${state.userId}`,
 			})
 			console.log(id)
 			console.log(state.conversationId)
@@ -332,6 +360,53 @@ export function useDifyChat() {
 				resetConversation()
 			}
 			console.log('[Dify API] 会话已删除')
+		} catch (error) {
+			state.error = error.message
+			throw error
+		} finally {
+			state.loading = false
+		}
+	}
+	
+	/**
+	 * 获取应用 WebApp 设置
+	 * @returns {Promise<void>}
+	 */
+	const getWebAppSite = async () => {
+		state.loading = true
+		state.error = null
+		try {
+			const response = await api.get('site')
+			return await response.json()
+		} catch (error) {
+			state.error = error.message
+			throw error
+		} finally {
+			state.loading = false
+		}
+	}
+	
+	/**
+	 * 上传文件
+	 * @param {File} file 文件
+	 * @returns {Promise<void>}
+	 */
+	const fileUpload = async (file) => {
+		state.loading = true
+		state.error = null
+		try {
+			// 创建 FormData 对象
+			const formData = new FormData()
+			formData.append('user', `${state.userId}`)  // 添加用户ID
+			formData.append('file', file)         // 添加文件
+			const response = await api.upload('files/upload', formData, {
+			      // 可选：监听上传进度
+			      onUploadProgress: (progressEvent) => {
+			        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+			        console.log(`上传进度: ${percentCompleted}%`);
+			      }
+			    });
+			return await response.json()
 		} catch (error) {
 			state.error = error.message
 			throw error
@@ -353,7 +428,7 @@ export function useDifyChat() {
 		state.error = null
 		try {
 			await api.delete(`chat-messages/${state.conversationId}/stop`, {
-				user: "abc-123",
+				user: `${state.userId}`,
 			})
 			console.log(id)
 			console.log(state.conversationId)
@@ -391,11 +466,13 @@ export function useDifyChat() {
 		...toRefs(state),
 		sendChatMessage,
 		stopResponse,
+		getWebAppSite,
 		getConversationHistory,
 		getConversationList,
 		deleteConversation,
 		resetConversation,
 		getCurrentConversationId,
-		setDifyEnvironment
+		setDifyEnvironment,
+		fileUpload
 	}
 }

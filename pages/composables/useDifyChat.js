@@ -301,7 +301,7 @@ export function useDifyChat() {
    * 获取当前会话ID
    */
   const getCurrentConversationId = () => {
-	conversationId.value = localStorage.getItem('yy_conversation_id')
+	conversationId.value = JSON.parse(localStorage.getItem('yy_conversation_id'))
     return conversationId.value
   }
 
