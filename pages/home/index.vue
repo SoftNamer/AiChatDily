@@ -120,7 +120,7 @@
 					<div class="welcome-avatar">
 						<image class="welcome-logo" :src="webAppSite.icon_url ? chatConfig.url + webAppSite.icon_url : '/static/yhhy.png'" />
 					</div>
-					<h3>您好！我是{{webAppSite.title}}智能助手</h3>
+					<h3>我是{{webAppSite.title}}，很高兴见到你！</h3>
 					<p>有什么可以帮助您的吗？</p>
 					<!-- 					<div class="suggestions">
 						<div @click="sendSuggestedMessage('智能工程学院简介')" class="suggestion-btn">智能工程学院简介</div>

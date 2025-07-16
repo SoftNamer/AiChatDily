@@ -20,7 +20,7 @@ const DIFY_CONFIG = {
 			apiKey: 'app-ZUe9X1ze40XIPnZFQxECINIJ'
 		},
 		production: {
-			baseUrl: 'http://ai.yuhwyuan.com/v1',
+			baseUrl: 'https://ai.yuhwyuan.com/v1',
 			apiKey: 'app-d2uMe8sjDNr1UrPKWMJk6pph'
 		}
 	},
