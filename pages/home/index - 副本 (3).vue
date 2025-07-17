@@ -136,7 +136,6 @@
 					</div>
 					<div class="message-content-chat">
 						<div class="message-bubble">
-							<!-- <div class="message-text" v-html="formatMessage(message.content)"></div> -->
 							<div class="message-text" v-html="formatMessage(message.content)"></div>
 							<!-- <div class="message-time">{{ formatTime(message.timestamp) }}</div> -->
 						</div>
@@ -153,10 +152,6 @@
 						<image class="welcome-logo" :src="webAppSite.icon_url ? chatConfig.url + webAppSite.icon_url: '/static/yhhy.png'" />
 					</div>
 					<div class="message-content">
-						 <!-- 思考提示 - 添加安全检查 -->
-							<div v-if="message && message.isStreaming && message.showTips !== undefined && message.showTips" class="tips-indicator">
-							  深度思考中
-							</div>
 						<div class="typing-indicator">
 							<span></span>
 							<span></span>
@@ -412,149 +407,125 @@
 
 	// 发送消息
 	const sendMessage = async () => {
-	  if (!inputMessage.value.trim() || isLoading.value) return;
-	  
-	  const userMessageText = inputMessage.value;
-	  const messageId = Date.now();
-	
-	  // 添加用户消息
-	  messages.value.push({
-	    id: messageId,
-	    type: 'user',
-	    content: userMessageText,
-	    timestamp: new Date()
-	  });
-	
-	  inputMessage.value = '';
-	  isLoading.value = true;
-	  errorMessage.value = '';
-	  scrollToBottom();
-	
-	  // 创建助手消息容器（带打字效果相关属性）
-	  const assistantMessageId = messageId + 1;
-	  const assistantMessage = {
-	    id: assistantMessageId,
-	    type: 'assistant',
-	    content: '', // 最终显示内容
-	    pendingContent: '', // 待处理的流式内容
-	    typingInterval: null, // 打字效果定时器
-	    isStreaming: true,
-	    showTips: false, // 控制提示文本的显示
-	    timestamp: new Date()
-	  };
-	  
-	  // 立即添加助手消息到DOM
-	  messages.value.push(assistantMessage);
-	
-	  // 设置3秒后显示提示文本
-	  const tipsTimer = setTimeout(() => {
-	    // 检查消息是否仍然存在且处于流式状态
-	    const msgIndex = messages.value.findIndex(m => m.id === assistantMessageId);
-	    if (msgIndex !== -1 && messages.value[msgIndex].isStreaming) {
-	      messages.value[msgIndex].showTips = true;
-	    }
-	  }, 3000);
-	
-	  // 处理流式响应的函数
-	  const handleStreamChunk = (chunk) => {
-	    console.log(chunk);
-	    
-	    if (chunk.event === 'message') {
-	      // 确保消息对象存在且未被修改
-	      const msgIndex = messages.value.findIndex(m => m.id === assistantMessageId);
-	      if (msgIndex === -1) return;
-	      
-	      const currentMessage = messages.value[msgIndex];
-	      
-	      // 如果收到第一个字符，清除提示文本定时器
-	      if (currentMessage.pendingContent === '' && !currentMessage.showTips) {
-	        clearTimeout(tipsTimer);
-	      }
-	      
-	      // 将新内容添加到待处理队列
-	      currentMessage.pendingContent += chunk.answer || '';
-	      
-	      if (!currentMessage.typingInterval) {
-	        // 如果没有正在运行的定时器，启动打字效果
-	        startTypingEffect(currentMessage);
-	      }
-	    } else if (chunk.event === 'message_end') {
-	      console.log('消息结束，元数据:', chunk.metadata);
-	      
-	      // 确保消息对象存在
-	      const msgIndex = messages.value.findIndex(m => m.id === assistantMessageId);
-	      if (msgIndex !== -1) {
-	        messages.value[msgIndex].isStreaming = false;
-	        messages.value[msgIndex].showTips = false; // 隐藏提示文本
-	      }
-	      
-	      isConnected.value = true;
-	    } else if (chunk.event === 'workflow_started') {
-	      isConnected.value = true;
-	    }
-	  };
-	
-	  try {
-	    // 发送请求并处理流式响应
-	    await sendChatMessage(userMessageText, handleStreamChunk, {
-	      robotType: chatConfig.robotType,
-	      files: {
-	        "type": "image",
-	        "transfer_method": "local_file",
-	        "url": uploadFileId.value
-	      }
-	    });
-	  } catch (error) {
-	    console.error('发送消息失败:', error);
-	    errorMessage.value = `发送消息失败：${error.message}`;
-	    
-	    // 确保错误处理时消息对象存在
-	    const msgIndex = messages.value.findIndex(m => m.id === assistantMessageId);
-	    if (msgIndex !== -1) {
-	      messages.value[msgIndex].content = '抱歉，发送消息失败，请重试';
-	      messages.value[msgIndex].isStreaming = false;
-	      messages.value[msgIndex].showTips = false;
-	    }
-	    
-	    isConnected.value = false;
-	  } finally {
-	    isLoading.value = false;
-	    // 确保清除定时器
-	    clearTimeout(tipsTimer);
-	    await getConversationLists(false);
-	    
-	    // 重新聚焦到输入框
-	    nextTick(() => {
-	      messageInput.value?.focus();
-	    });
-	  }
+		if (!inputMessage.value.trim() || isLoading.value) return;
+		const userMessageText = inputMessage.value;
+		const messageId = Date.now();
+
+		// 添加用户消息
+		messages.value.push({
+			id: messageId,
+			type: 'user',
+			content: userMessageText,
+			timestamp: new Date()
+		});
+		// 更新当前会话信息
+		// updateCurrentConversation(userMessageText);
+
+		inputMessage.value = '';
+		isLoading.value = true;
+		errorMessage.value = '';
+		scrollToBottom();
+
+		try {
+			// 创建助手消息容器（带打字效果相关属性）
+			const assistantMessageId = messageId + 1;
+			const assistantMessage = {
+				id: assistantMessageId,
+				type: 'assistant',
+				content: '', // 最终显示内容
+				pendingContent: '', // 待处理的流式内容
+				typingInterval: null, // 打字效果定时器
+				timestamp: new Date()
+			};
+
+			// 处理流式响应的函数
+			const handleStreamChunk = (chunk) => {
+				console.log(chunk)
+				console.log('**********************************************')
+				console.log(assistantMessage.pendingContent += chunk.answer || '')
+				console.log('**********************************************')
+				if (chunk.event === 'message') {
+					// 将新内容添加到待处理队列
+					assistantMessage.pendingContent += chunk.answer || '';
+
+					// 如果没有正在运行的定时器，启动打字效果
+					startTypingEffect(assistantMessage);
+					if (!assistantMessage.typingInterval) {
+
+					}
+				} else if (chunk.event === 'message_end') {
+					console.log('消息结束，元数据:', chunk.metadata);
+					isConnected.value = true;
+					// 确保所有内容都显示后更新会话
+					const checkComplete = () => {
+						if (assistantMessage.pendingContent || assistantMessage.typingInterval) {
+							setTimeout(checkComplete, 100);
+						} else {
+							// updateCurrentConversation(assistantMessage.content, true);
+						}
+					};
+					checkComplete();
+				} else if (chunk.event === 'workflow_started') {
+					isConnected.value = true;
+				}
+			};
+			// 发送请求并处理流式响应
+			await sendChatMessage(userMessageText, handleStreamChunk, {
+				robotType: chatConfig.robotType,
+				files: {
+					"type": "image",
+					"transfer_method": "local_file",
+					"url": uploadFileId.value
+				}
+			});
+			messages.value.push(assistantMessage);
+		} catch (error) {
+			console.error('发送消息失败:', error);
+			errorMessage.value = `发送消息失败：${error.message}`;
+			isConnected.value = false;
+			// 移除失败的助手消息
+			messages.value = messages.value.filter(msg => msg.id !== messages.value[messages.value.length - 1]
+			?.id);
+		} finally {
+			isLoading.value = false;
+			// 确保最后还有未显示的内容能被处理
+			const lastMsg = messages.value[messages.value.length - 1];
+			if (lastMsg?.pendingContent) {
+				startTypingEffect(lastMsg);
+			}
+			// 重新聚焦到输入框
+			nextTick(() => {
+				messageInput.value?.focus();
+			});
+			await getConversationLists(false);
+		}
 	};
-	
+
 	// 启动打字效果
 	const startTypingEffect = (message) => {
-	  // 清除可能存在的旧定时器
-	  if (message.typingInterval) {
-	    clearInterval(message.typingInterval);
-	  }
-	
-	  // 打字速度控制（毫秒/字符），可以根据需要调整
-	  const typingSpeed = 30;
-	
-	  // 创建新的定时器
-	  message.typingInterval = setInterval(() => {
-	    if (message.pendingContent.length > 0) {
-	      // 每次取一个字符添加到显示内容
-	      message.content += message.pendingContent.charAt(0);
-	      // 从待处理内容中移除已显示的字符
-	      message.pendingContent = message.pendingContent.slice(1);
-	      // 滚动到底部
-	      scrollToBottom();
-	    } else {
-	      // 没有更多内容时清除定时器
-	      clearInterval(message.typingInterval);
-	      message.typingInterval = null;
-	    }
-	  }, typingSpeed);
+		// 清除可能存在的旧定时器
+		if (message.typingInterval) {
+			clearInterval(message.typingInterval);
+		}
+
+		// 打字速度控制（毫秒/字符），可以根据需要调整
+		const typingSpeed = 30;
+
+		// 创建新的定时器
+		message.typingInterval = setInterval(() => {
+			if (message.pendingContent.length > 0) {
+				// 每次取一个字符添加到显示内容
+				message.content += message.pendingContent.charAt(0);
+				// 从待处理内容中移除已显示的字符
+				message.pendingContent = message.pendingContent.slice(1);
+				// 滚动到底部
+				scrollToBottom();
+			} else {
+				// 没有更多内容时清除定时器
+				clearInterval(message.typingInterval);
+				message.typingInterval = null;
+			}
+		}, typingSpeed);
 	};
 
 	// 发送推荐消息
@@ -1183,13 +1154,10 @@
 	}
 
 	.message-content {
-		height: 40px;
-		line-height: 40px;
-		align-items: center;
 		flex: 1;
 		display: flex;
-		/* flex-direction: column; */
-		justify-content: flex-start;
+		flex-direction: column;
+		justify-content: flex-end;
 	}
 
 	.message-text {
@@ -1248,19 +1216,15 @@
 		left: 8px;
 	}
 
-	.tips-indicator{
-		font-size: 12px;
-	}
-	
 	.typing-indicator {
 		display: flex;
 		gap: 4px;
-		padding: 16px 12px;
+		padding: 12px 16px;
 	}
 
 	.typing-indicator span {
-		width: 6px;
-		height: 6px;
+		width: 8px;
+		height: 8px;
 		background-color: #9ca3af;
 		border-radius: 50%;
 		animation: typing 1.4s infinite ease-in-out;

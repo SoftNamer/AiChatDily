@@ -129,40 +129,49 @@
 					</div> -->
 				</div>
 
-				<div v-for="message in messages" :key="message.id" class="message" :class="message.type">
-					<div class="message-avatar" v-if="message.type !== 'user'">
-						<!-- <span v-if="message.type === 'user'"></span> -->
-						<image class="welcome-logo" :src="webAppSite.icon_url ? chatConfig.url + webAppSite.icon_url: '/static/yhhy.png'" />
-					</div>
-					<div class="message-content-chat">
-						<div class="message-bubble">
-							<!-- <div class="message-text" v-html="formatMessage(message.content)"></div> -->
-							<div class="message-text" v-html="formatMessage(message.content)"></div>
-							<!-- <div class="message-time">{{ formatTime(message.timestamp) }}</div> -->
-						</div>
-						<div class="message-time" @click.stop="copyToClipboard(message.content, $event.target)"
-							title="复制消息">
-							<image class="message-copy" src="/static/copy.png" />
-						</div>
-					</div>
-				</div>
-
-				<!-- 正在输入指示器 -->
-				<div v-if="isLoading" class="message assistant">
-					<div class="message-avatar">
-						<image class="welcome-logo" :src="webAppSite.icon_url ? chatConfig.url + webAppSite.icon_url: '/static/yhhy.png'" />
-					</div>
-					<div class="message-content">
-						 <!-- 思考提示 - 添加安全检查 -->
-							<div v-if="message && message.isStreaming && message.showTips !== undefined && message.showTips" class="tips-indicator">
-							  深度思考中
-							</div>
-						<div class="typing-indicator">
+				<div class="chat-content" ref="messagesContainer">
+				  <div 
+				    v-for="message in messages" 
+				    :key="message.id" 
+				    class="message" 
+				    :class="message.type">
+				    <div class="message-avatar" v-if="message.type !== 'user'">
+				      <image class="welcome-logo" 
+				             :src="webAppSite.icon_url ? chatConfig.url + webAppSite.icon_url : '/static/yhhy.png'" />
+				    </div>
+				    <div class="message-content-chat">
+				      <div class="message-bubble">
+						  <!-- 思考提示和打字指示器 -->
+						<div v-if="message.isStreaming" class="thinking-container">
+						  <div v-if="message.showTips !== undefined && message.showTips" class="tips-indicator">
+							深度思考中
+						  </div>
+						  <div class="typing-indicator">
 							<span></span>
 							<span></span>
 							<span></span>
+						  </div>
 						</div>
-					</div>
+				        <!-- 用户消息使用特定样式 -->
+				          <div 
+				            v-if="message.type === 'user'" 
+				            class="message-text user-message-text" 
+				            v-html="formatMessage(message.content)"></div>
+				          
+				          <!-- 助手消息使用不同样式 -->
+				          <div 
+				            v-else-if="message.type === 'assistant' && !message.isStreaming" 
+				            class="message-text assistant-message-text" 
+				            v-html="formatMessage(message.content)"></div>
+				      </div>
+				      <div class="message-time" 
+				           v-if="message.type === 'assistant' && !message.isStreaming"
+				           @click.stop="copyToClipboard(message.content, $event.target)"
+				           title="复制消息">
+				        <image class="message-copy" src="/static/copy.png" />
+				      </div>
+				    </div>
+				  </div>
 				</div>
 			</div>
 
@@ -1193,11 +1202,21 @@
 	}
 
 	.message-text {
-		background-color: #eff6ff;
+		
 		padding: 12px 16px;
 		border-radius: 8px;
 		line-height: 20px;
 		overflow: hidden;
+	}
+	
+	.user-message-text {
+	  /* 用户消息的样式 */
+	  background-color: #eff6ff;
+	}
+	
+	.assistant-message-text {
+	  /* 助手消息的样式 */
+	  background-color: #ffffff;
 	}
 	
 	/* 在消息区域样式中添加 */
@@ -1212,7 +1231,7 @@
 	.message-bubble {
 		background-color: white;
 		border-radius: 8px;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+		/* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); */
 		position: relative;
 	}
 
@@ -1248,14 +1267,45 @@
 		left: 8px;
 	}
 
-	.tips-indicator{
-		font-size: 12px;
+	.thinking-container {
+	  /* margin-top: 12px; */
+	  display: flex;
+	  align-items: center;
+	}
+	
+	.tips-indicator {
+	  font-size: 12px;
+	  color: #888;
+	  margin-right: 8px;
+	}
+	
+	.typing-indicator {
+	  display: flex;
+	  align-items: center;
+	}
+	
+	.typing-indicator span {
+	  width: 5px;
+	  height: 5px;
+	  margin: 0 2px;
+	  background-color: #888;
+	  border-radius: 50%;
+	  display: inline-block;
+	  animation: typing-bounce 1.4s infinite ease-in-out both;
+	}
+	
+	.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+	.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+	
+	@keyframes typing-bounce {
+	  0%, 80%, 100% { transform: scale(0); }
+	  40% { transform: scale(1); }
 	}
 	
 	.typing-indicator {
 		display: flex;
 		gap: 4px;
-		padding: 16px 12px;
+		padding: 16px 5px;
 	}
 
 	.typing-indicator span {
