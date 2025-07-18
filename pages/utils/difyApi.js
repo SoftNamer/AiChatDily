@@ -194,86 +194,154 @@ export function useDifyChat() {
 	const api = createApiClient()
 
 	/**
-	 * 发送聊天消息到Dify API
+	 * 发送聊天消息到Dify API（支持联网查询）
 	 * @param {string} query - 用户输入的查询
-	 * @param {function} onMessage - 处理流式消息的回调函数
+	 * @param {function} onMessage - 处理流式消息的回调函数（接收AI回答和联网状态）
 	 * @param {object} options - 可选配置
 	 */
 	const sendChatMessage = async (query, onMessage, options = {}) => {
-		state.loading = true
-		state.error = null
-		state.controller = new AbortController()
-		try {
-			const requestBody = {
-				query,
-				response_mode: 'streaming',
-				conversation_id: state.conversationId,
-				user: options.user || state.userId,
-				inputs: options.inputs || {},
-				files: options.files || [],
-				auto_generate_name: options.auto_generate_name !== false
-			}
-			const response = await api.post('chat-messages', requestBody, {
-				signal: state.controller.signal
-			})
-			state.isConnected = true
-			// 处理流式响应
-			const reader = response.body.getReader()
-			const decoder = new TextDecoder()
-			while (true) {
-				const {
-					done,
-					value
-				} = await reader.read()
-				if (done) {
-					console.log('[Dify API] 流式响应结束')
-					break
-				}
-				// 解码数据块
-				const chunk = decoder.decode(value, {
-					stream: true
-				})
-				// 处理多个数据行
-				const lines = chunk.split('\n')
-
-				for (const line of lines) {
-					if (line.trim() === '') continue
-
-					// 解析Server-Sent Events格式
-					if (line.startsWith('data: ')) {
-						const jsonStr = line.substring(6) // 移除 "data: " 前缀
-
-						// 跳过非JSON数据（如ping事件）
-						if (jsonStr.trim() === '' || jsonStr.includes('[DONE]')) {
-							continue
-						}
-
-						const data = JSON.parse(jsonStr)
-
-						// 更新conversation_id
-						if (data.conversation_id && !state.conversationId) {
-							state.conversationId = data.conversation_id
-							localStorage.setItem('yy_conversation_id', state.conversationId)
-							console.log('[Dify API] 设置conversation_id:', state.conversationId)
-						}
-
-						// 调用消息处理回调
-						if (onMessage && typeof onMessage === 'function') {
-							onMessage(data)
-						}
-					}
-				}
-			}
-		} catch (error) {
-			state.error = error.message
-			if (error.name !== 'AbortError') {
-				throw error
-			}
-		} finally {
-			state.isConnected = false
-			state.loading = false
-		}
-	}
+	  state.loading = true;
+	  state.error = null;
+	  state.controller = new AbortController();
+	  
+	  try {
+	    // 1. 构建基础请求体，启用工具调用
+	    const requestBody = {
+	      query,
+	      response_mode: 'streaming',
+	      conversation_id: state.conversationId,
+	      user: options.user || state.userId,
+	      inputs: options.inputs || {},
+	      files: options.files || [],
+	      auto_generate_name: options.auto_generate_name !== false,
+	      // 关键：启用工具调用（允许AI发起联网查询）
+	      enable_tool_calling: true, 
+	      // 可选：指定允许使用的工具（如搜索引擎）
+	      tools: options.tools || [{ type: "web_search" }] 
+	    };
+	
+	    const response = await api.post('chat-messages', requestBody, {
+	      signal: state.controller.signal
+	    });
+	
+	    state.isConnected = true;
+	    const reader = response.body.getReader();
+	    const decoder = new TextDecoder();
+	
+	    while (true) {
+	      const { done, value } = await reader.read();
+	      if (done) {
+	        console.log('[Dify API] 流式响应结束');
+	        onMessage({ event: 'done' }); // 通知前端响应结束
+	        break;
+	      }
+	
+	      const chunk = decoder.decode(value, { stream: true });
+	      const lines = chunk.split('\n');
+	
+	      for (const line of lines) {
+	        if (line.trim() === '') continue;
+	
+	        if (line.startsWith('data: ')) {
+	          const jsonStr = line.substring(6);
+	          if (jsonStr.trim() === '' || jsonStr.includes('[DONE]')) continue;
+	
+	          try {
+	            const data = JSON.parse(jsonStr);
+	
+	            // 更新会话ID
+	            if (data.conversation_id && !state.conversationId) {
+	              state.conversationId = data.conversation_id;
+	              localStorage.setItem('yy_conversation_id', state.conversationId);
+	            }
+	
+	            // 2. 处理工具调用（如联网查询请求）
+	            if (data.event === 'tool_calling' && data.tool_calls) {
+	              console.log('[联网查询] AI触发工具调用:', data.tool_calls);
+	              
+	              // 通知前端：AI正在联网查询
+	              onMessage({ 
+	                event: 'web_search_start', 
+	                message: '正在联网查询最新信息...' 
+	              });
+	
+	              // 3. 执行联网查询（这里以模拟搜索引擎为例）
+	              for (const toolCall of data.tool_calls) {
+	                if (toolCall.type === 'web_search') {
+	                  // 调用实际的联网查询函数（需实现）
+	                  const searchResult = await performWebSearch(toolCall.parameters.query);
+	                  
+	                  // 4. 将查询结果返回给AI（作为上下文继续生成回答）
+	                  await sendToolResult(
+	                    state.conversationId,
+	                    toolCall.id,
+	                    searchResult
+	                  );
+	                }
+	              }
+	            }
+	
+	            // 5. 将AI生成的内容（含联网结果整合）推送给前端
+	            onMessage(data);
+	
+	          } catch (parseError) {
+	            console.error('[解析错误]', parseError, '原始数据:', jsonStr);
+	          }
+	        }
+	      }
+	    }
+	
+	  } catch (error) {
+	    state.error = error.message;
+	    onMessage({ 
+	      event: 'error', 
+	      message: error.message || '联网查询失败，请重试' 
+	    });
+	    if (error.name !== 'AbortError') throw error;
+	  } finally {
+	    state.isConnected = false;
+	    state.loading = false;
+	  }
+	};
+	
+	/**
+	 * 执行联网查询（示例实现）
+	 * @param {string} query - 搜索关键词
+	 * @returns {string} 格式化的搜索结果
+	 */
+	const performWebSearch = async (query) => {
+	  try {
+	    // 这里替换为实际的搜索引擎API（如Google Search、Bing Search等）
+	    console.log(`[执行联网查询] 关键词: ${query}`);
+	    
+	    // 模拟网络请求延迟
+	    await new Promise(resolve => setTimeout(resolve, 1500));
+	    
+	    // 示例结果（实际应返回真实搜索结果）
+	    return `搜索结果：关于“${query}”的最新信息...（此处省略具体内容）`;
+	  } catch (error) {
+	    console.error('[联网查询失败]', error);
+	    return `联网查询失败：${error.message}`;
+	  }
+	};
+	
+	/**
+	 * 将工具调用结果（如联网查询结果）返回给Dify
+	 * @param {string} conversationId - 会话ID
+	 * @param {string} toolCallId - 工具调用ID
+	 * @param {string} result - 工具返回的结果
+	 */
+	const sendToolResult = async (conversationId, toolCallId, result) => {
+	  try {
+	    await api.post(`conversations/${conversationId}/tool-results`, {
+	      tool_call_id: toolCallId,
+	      result: { type: "text", content: result }
+	    });
+	    console.log('[工具结果已返回]', toolCallId);
+	  } catch (error) {
+	    console.error('[返回工具结果失败]', error);
+	  }
+	};
 
 	/**
 	 * 停止当前流式响应
