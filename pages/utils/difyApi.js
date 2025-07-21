@@ -219,7 +219,7 @@ export function useDifyChat() {
 	      enable_tool_calling: true, 
 	      // 可选：指定允许使用的工具（如搜索引擎）
 	      tools: options.tools || [{ type: "web_search" }] ,
-		  deep_think: 1,
+		  deep_think: 0,
 		  network_search: 1,
 	    };
 	
