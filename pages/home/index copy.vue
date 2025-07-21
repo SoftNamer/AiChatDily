@@ -478,49 +478,31 @@
 		}
 	};
 
-	// 启动打字效果（带实时标签解析）
+	// 启动打字效果
 	const startTypingEffect = (message) => {
-	  if (message.typingInterval) {
-	    clearInterval(message.typingInterval);
-	  }
-	
-	  const typingSpeed = 30;
-	  // 记录当前是否处于think标签内（解决标签不完整问题）
-	  let inThinkTag = false; 
-	
-	  message.typingInterval = setInterval(() => {
-	    if (message.pendingContent.length > 0) {
-	      // 取当前字符
-	      const currentChar = message.pendingContent.charAt(0);
-	      message.content += currentChar;
-	      message.pendingContent = message.pendingContent.slice(1);
-	
-	      // 检测标签状态（判断是否进入/退出think标签）
-	      if (currentChar === '}' && message.content.endsWith('<|FunctionCallEnd|>')) {
-	        // 检测到开始标签：标记进入think状态
-	        inThinkTag = true;
-	      } else if (currentChar === '}' && message.content.endsWith('<|FunctionCallEnd|>') && inThinkTag) {
-	        // 检测到结束标签：标记退出think状态，并触发一次完整解析
-	        inThinkTag = false;
-	      }
-	
-	      // 实时处理当前内容（解析标签并应用样式）
-	      message.formattedContent = formatMessage(message.content);
-	
-	      scrollToBottom();
-	    } else {
-	      // 打字结束后，确保最终内容完整解析（补全可能缺失的标签）
-	      if (inThinkTag) {
-	        // 若仍在标签内，补全闭合标签后再解析
-	        message.content += '<|FunctionCallEnd|>';
-	        inThinkTag = false;
-	      }
-	      message.formattedContent = formatMessage(message.content);
-	      
-	      clearInterval(message.typingInterval);
-	      message.typingInterval = null;
-	    }
-	  }, typingSpeed);
+		// 清除可能存在的旧定时器
+		if (message.typingInterval) {
+			clearInterval(message.typingInterval);
+		}
+
+		// 打字速度控制（毫秒/字符），可以根据需要调整
+		const typingSpeed = 30;
+
+		// 创建新的定时器
+		message.typingInterval = setInterval(() => {
+			if (message.pendingContent.length > 0) {
+				// 每次取一个字符添加到显示内容
+				message.content += message.pendingContent.charAt(0);
+				// 从待处理内容中移除已显示的字符
+				message.pendingContent = message.pendingContent.slice(1);
+				// 滚动到底部
+				scrollToBottom();
+			} else {
+				// 没有更多内容时清除定时器
+				clearInterval(message.typingInterval);
+				message.typingInterval = null;
+			}
+		}, typingSpeed);
 	};
 
 	// 发送推荐消息
@@ -639,31 +621,11 @@
 		}
 	}
 
-	/**
-	 * 格式化内容：处理think标签并解析Markdown
-	 * @param {string} content - 原始内容（含think标签）
-	 * @returns {string} 处理后的HTML
-	 */
+	// 格式化消息内容（支持Markdown）
 	const formatMessage = (content) => {
-	  if (!content) return '';
-	  
-	  // 处理完整标签：替换 <think>...<|FunctionCallEnd|> 为带样式的div
-	  let processed = content.replace(
-	    /<think>([\s\S]*?)<\/think>/g, // 匹配完整的 <think>...</think>
-	    '<div class="think-content">$1</div>'
-	  );
-	  
-	  // 处理未闭合的开始标签（避免显示原始标签）
-	  processed = processed.replace(/<think>/g, '<div class="think-content">');
-	  
-	  // 处理未闭合的结束标签（避免显示原始标签）
-	  processed = processed.replace(/<\/think>/g, '</div>');
-	  
-	  return marked.parse(processed, {
-	    sanitize: false, // 允许HTML标签
-	    breaks: true     // 保留换行
-	  });
-	};
+		if (!content) return ''
+		return marked.parse(content)
+	}
 
 	// 格式化时间
 	const formatTime = (timestamp) => {
@@ -1245,7 +1207,7 @@ const scrollToBottom = () => {
 	/* 处理 code 标签（代码内容） */
 	.message-text pre code {
 		font-size: 14px;
-		color: #404040;
+		color: #333;
 		/* 代码颜色 */
 		/* 可以添加语法高亮相关样式 */
 	}
@@ -1266,7 +1228,6 @@ const scrollToBottom = () => {
 		border-radius: 8px;
 		line-height: 20px;
 		overflow: hidden;
-		color: #404040;
 	}
 
 	.no-background {
@@ -1581,11 +1542,5 @@ const scrollToBottom = () => {
 			width: 100%;
 			text-align: center;
 		}
-	}
-	
-	::v-deep .think-content {
-	  font-size: 13px !important;
-	  color: #8b8b8b !important;
-	  margin-bottom: 16px !important;
 	}
 </style>
