@@ -243,7 +243,8 @@
 	// 聊天配置
 	const chatConfig = reactive({
 		url: 'http://ai.yuhwyuan.com',
-		apiKey: 'app-FkDM0qopxHtZx4hrovISYbwh',
+		// apiKey: 'app-FkDM0qopxHtZx4hrovISYbwh',
+		apiKey: 'app-ct8sUbikK5iKOhPeDFj0v0IX', //工作流
 		baseUrl: 'http://ai.yuhwyuan.com/v1',
 		userId: 'user1',
 		robotType: '智能助手'

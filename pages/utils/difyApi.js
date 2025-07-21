@@ -21,7 +21,8 @@ const DIFY_CONFIG = {
 		},
 		production: {
 			baseUrl: 'https://ai.yuhwyuan.com/v1',
-			apiKey: 'app-d2uMe8sjDNr1UrPKWMJk6pph'
+			apiKey: 'app-ct8sUbikK5iKOhPeDFj0v0IX' //工作流
+			// apiKey: 'app-d2uMe8sjDNr1UrPKWMJk6pph' //对话
 		}
 	},
 	currentEnv: 'production'
@@ -217,7 +218,9 @@ export function useDifyChat() {
 	      // 关键：启用工具调用（允许AI发起联网查询）
 	      enable_tool_calling: true, 
 	      // 可选：指定允许使用的工具（如搜索引擎）
-	      tools: options.tools || [{ type: "web_search" }] 
+	      tools: options.tools || [{ type: "web_search" }] ,
+		  deep_think: 1,
+		  network_search: 1,
 	    };
 	
 	    const response = await api.post('chat-messages', requestBody, {
